@@ -14,3 +14,5 @@ Login credentials are stored in encrypted files on the user's local machine.
 Target datsets are stored in a standard format (country, id, date) in a csv file. Currently, the full timeseries of every listed datset is downloaded. 
 
 Note: this is an early release with limited functionality, suggestions and contributions are welcome.
+
+More info on Facebook Data for Good: https://dataforgood.fb.com/
