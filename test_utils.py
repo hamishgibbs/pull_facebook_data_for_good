@@ -38,7 +38,7 @@ class TestUtils(unittest.TestCase):
     def test_move_most_recent_files(self):
         
         self.data1 = pd.DataFrame({'data':[1, 2, 3, 4, 5]})
-        self.data1.to_csv(get_home_dir() + '/Downloads/test1') 
+        self.data1.to_csv(get_home_dir() + '/Downloads/test1.csv') 
         
         self.data2 = pd.DataFrame({'data':[1, 2, 3, 4, 5]})
         self.data2.to_csv(get_home_dir() + '/Downloads/Britain Coronavirus Disease Prevention Map Mar 06 2020 Id Id Colocation Map_2020-03-31.csv') 

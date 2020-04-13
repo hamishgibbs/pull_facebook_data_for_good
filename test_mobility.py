@@ -18,8 +18,8 @@ class TestMobility(unittest.TestCase):
     
     def test_get_file_dates(self):
         
-        self.assertIsInstance(get_file_dates(), list)
-        self.assertIsInstance(get_file_dates()[0], datetime.datetime)
+        self.assertIsInstance(get_file_dates(self.date1), list)
+        self.assertIsInstance(get_file_dates(self.date1)[0], datetime.datetime)
     
     def test_get_url_end(self):
         
@@ -34,8 +34,8 @@ class TestMobility(unittest.TestCase):
 
     def test_get_urls(self):
         
-        self.assertIsInstance(get_urls('url', get_file_dates()), list)
-        self.assertIsInstance(get_urls('url', get_file_dates())[0], str)
+        self.assertIsInstance(get_urls('url', get_file_dates(self.date1)), list)
+        self.assertIsInstance(get_urls('url', get_file_dates(self.date1))[0], str)
 
         
                 
