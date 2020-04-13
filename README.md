@@ -13,14 +13,20 @@ Clone this repository and alter the file paths in the makefile
 ### Usage
 Target datsets are stored in a standard format (country, id, origin_year, origin_month, origin_day, *origin_hour*) in a csv file. Currently, the full timeseries of every listed datset is downloaded. 
 
-Download colocation data: 
-`make pull_colocation`
+Download colocation data:  
+```python
+make pull_colocation
+```
 
-Download mobility data:
-`make pull_mobility`
+Download mobility data:  
+```python
+make pull_mobility
+```
 
 Run unit tests:
-`make test`
+```python
+make test
+```
 
 Currently functional for Mobility and Colocation datasets only. 
 
