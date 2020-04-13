@@ -1,7 +1,7 @@
 # pull_facebook_data_for_good
 Imitate an API for downloading data from Facebook Data For Good
 
-Disclaimer: This download routine will only work for those with access to Facebook Data for Good, and will only function for datasets to which the user has been granted access.  
+Disclaimer: This download routine will only work for those with access to Facebook Data for Good, and will only function for datasets to which the user has been granted access. This tool is not developed by or associated with Facebook, is is simply a utility to speed downloading data from Facebook Data For Good.
 
 Currently, Facebook Data for Good does not provide an API to automatically download or update datasets.
 
