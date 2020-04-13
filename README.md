@@ -15,17 +15,17 @@ Target datsets are stored in a standard format (country, id, origin_year, origin
 
 Download colocation data:  
 ```shell
-make pull_colocation
+$ make pull_colocation
 ```
 
 Download mobility data:  
 ```shell
-make pull_mobility
+$ make pull_mobility
 ```
 
 Run unit tests:
 ```shell
-make test
+$ make test
 ```
 
 Currently functional for Mobility and Colocation datasets only. 
