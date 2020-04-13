@@ -11,7 +11,7 @@ This program uses selenium webdriver to replicate the behaviour of an API for do
 Clone this repository and alter the file paths in the makefile
 
 ### Usage
-Target datsets are stored in a standard format (country, id, origin_date) in a csv file. Currently, the full timeseries of every listed datset is downloaded. 
+Target datsets are stored in a standard format (country, id, origin_year, origin_month, origin_day, *origin_hour*) in a csv file. Currently, the full timeseries of every listed datset is downloaded. 
 
 Download colocation data: 
 `make pull_colocation`
