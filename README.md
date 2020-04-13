@@ -11,9 +11,10 @@ This program uses selenium webdriver to imitate the behaviour of an API for down
 Clone this repository and alter the file paths in the makefile
 
 ### Usage
-Target datsets are stored in a standard format (country, id, origin_year, origin_month, origin_day, *origin_hour*) in a csv file. Currently, the full timeseries of every listed datset is downloaded.   
 
 Currently functional for Mobility and Colocation datasets only.   
+
+Target datsets are stored in a standard format (country, id, origin_year, origin_month, origin_day, *origin_hour*) in a csv file. Currently, the full timeseries of every listed datset is downloaded.   
 
 Download colocation data:  
 ```shell
