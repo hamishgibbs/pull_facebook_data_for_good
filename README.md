@@ -31,7 +31,7 @@ Run unit tests:
 $ make test
 ```
 
-Input your Facebook login credential when prompted. These credentials are not stored on your computer but are simply passed to the webdriver.
+Input your Facebook login credentials when prompted. These credentials are not stored on your computer but are simply passed to the webdriver.
 
 #### Notes:
 This is an early release with limited functionality, suggestions and contributions are welcome.
