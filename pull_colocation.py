@@ -15,8 +15,8 @@ import sys
 import pandas as pd
 from utils import download_data, move_most_recent_files
 from colocation import get_file_dates, get_urls
-from cryptography.fernet import Fernet
 from datetime import datetime
+from getpass import getpass
 
 #%%   
 
@@ -35,18 +35,12 @@ def main(_args):
 
     '''
     
-    #read key, encrypted username and pass from files
-    with open(_args[1], 'rb') as file:
-        fernet = Fernet(file.read())    
+    username = input("Username: ")
         
-    with open(_args[2] + '/username.key', 'rb') as file:
-        username = file.read()
+    password = getpass()
+    
+    keys = [username, password]
         
-    with open(_args[2] + '/password.key', 'rb') as file:
-        password = file.read()
-    
-    keys = [fernet.decrypt(username).decode("utf-8") , fernet.decrypt(password).decode("utf-8")]
-    
     #read target datasets
     data_target = pd.read_csv(_args[3]) 
     
