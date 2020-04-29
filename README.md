@@ -8,7 +8,7 @@ This program uses selenium webdriver to imitate the behaviour of an API for down
 *Disclaimer: This download routine will only work for those with access to Facebook Data for Good, and will only function for datasets to which the user has been granted access. This tool is not developed by or associated with Facebook, is is simply a utility to automate downloading data from the Facebook Data for Good Geoinsights Platform.*
 
 ### Installation
-Clone this repository and alter the file paths in the makefile
+Clone this repository and alter the output file path in the makefile
 
 ### Usage
 
@@ -31,10 +31,7 @@ Run unit tests:
 $ make test
 ```
 
-Login credentials are stored in encrypted files on the user's local machine. To bypass the process of encrypting and decrypting login credentials, replace:
-`keys = [fernet.decrypt(username).decode("utf-8") , fernet.decrypt(password).decode("utf-8")]`
-with:
-`keys = ["your_username@mail.com", "yourpassword"]`
+Input your Facebook login credential when prompted. These credentials are not stored on your computer but are simply passed to the webdriver.
 
 #### Notes:
 This is an early release with limited functionality, suggestions and contributions are welcome.
