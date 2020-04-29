@@ -38,9 +38,9 @@ This tool uses csv files with one row per target dataset. These files store the 
 
 `country, id, origin_year, origin_month, origin_day, origin_hour`
 
-To download the full timeseries of a new dataset, open Geoinsights and navigate to the desired data collection. 
+To download the full timeseries of a new dataset, open Geoinsights and navigate to the desired data collection. Click: 
 
-Click ![](download_button.png).  
+![](download_button.png)
 
 The dataset ID is embedded in the url of this page. For example, the dataset ID for the collection stored at `https://www.facebook.com/geoinsights-portal/downloads/?id=243071640406689` is `243071640406689`.
 
