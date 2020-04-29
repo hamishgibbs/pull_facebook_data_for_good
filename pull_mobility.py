@@ -36,7 +36,7 @@ def main(_args):
     keys = [username, password]
     
     #read target datasets
-    data_target = pd.read_csv(_args[3])
+    data_target = pd.read_csv(_args[1])
     
     for i, dataset_id in enumerate(data_target['id']):
             
