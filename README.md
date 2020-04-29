@@ -29,7 +29,7 @@ Run unit tests:
 $ make test
 ```
 
-Input your Facebook login credentials when prompted. These credentials are not stored on your computer but are simply passed to the webdriver.
+Input your Facebook login credentials when prompted. These credentials are not stored on your computer but are passed directly to the webdriver.
 
 
 ### Target dataset files
