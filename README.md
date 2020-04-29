@@ -14,8 +14,6 @@ Clone this repository and alter the output file path in the makefile
 
 Currently functional for Mobility and Colocation datasets only.   
 
-Target datsets are stored in a standard format (country, id, origin_year, origin_month, origin_day, *origin_hour*) in a csv file. Currently, the full timeseries of every listed datset is downloaded.   
-
 Download colocation data:  
 ```shell
 $ make pull_colocation
@@ -32,6 +30,13 @@ $ make test
 ```
 
 Input your Facebook login credentials when prompted. These credentials are not stored on your computer but are simply passed to the webdriver.
+
+
+### Target dataset files
+
+To download multiple datasets and save dataset download information between sessions, this tool uses csv files with one row per target dataset. These files store the country name, earliest date of data publication, and download ID in the format: country, id, origin_year, origin_month, origin_day, *origin_hour*. 
+
+To download the full timeseries of a new dataset, open Geoinsights and navigate to the desired data collection. Click "See all available downloads". The dataset ID is embedded in the url of this page. For example, the dataset ID for the collection stored at `https://www.facebook.com/geoinsights-portal/downloads/?id=243071640406689` is `243071640406689`.
 
 #### Notes:
 This is an early release with limited functionality, suggestions and contributions are welcome. To request a feature or report an issue with this tool, please [open an issue](https://github.com/hamishgibbs/pull_facebook_data_for_good/issues/new).
