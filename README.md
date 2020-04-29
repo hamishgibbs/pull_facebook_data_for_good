@@ -34,6 +34,6 @@ $ make test
 Input your Facebook login credentials when prompted. These credentials are not stored on your computer but are simply passed to the webdriver.
 
 #### Notes:
-This is an early release with limited functionality, suggestions and contributions are welcome. To request a feature or report an issue with this utiliy, please [open an issue](https://github.com/hamishgibbs/pull_facebook_data_for_good/issues/new).
+This is an early release with limited functionality, suggestions and contributions are welcome. To request a feature or report an issue with this tool, please [open an issue](https://github.com/hamishgibbs/pull_facebook_data_for_good/issues/new).
 
 More info on Facebook Data for Good: https://dataforgood.fb.com/
