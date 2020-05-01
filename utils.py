@@ -12,7 +12,8 @@ import shutil
 from selenium import webdriver
 import time
 import operator
-
+from datetime import datetime
+from progress.bar import Bar
 
 def try_mkdir_silent(path):
     '''
@@ -75,10 +76,14 @@ def download_data(urls: list, keys: list):
     driver.find_element_by_xpath('//*[@id="loginbutton"]').click()
     time.sleep(1)
     
+    bar = Bar('Downloading', max=len(urls[1:]))
     for url in urls[1:]:
         driver.get(url)
+        bar.next()
         time.sleep(1)
-        
+    
+    bar.finish()
+    
     driver.quit()
 
 def rename_and_move(old_fn: str, old_dir: str, new_fn: str, new_dir: str):
@@ -159,3 +164,18 @@ def move_most_recent_files(outdir: str, urls: list):
     for i, sorted_file in enumerate(sorted_files):
         
         rename_and_move(sorted_file.split('/')[-1], get_home_dir() + '/Downloads', new_fns[i], outdir)
+#%%
+def get_update_date(outdir: str):
+    
+    latest_addition = []
+    
+    for i, f in enumerate(glob.glob(outdir + '/*.csv')):
+        latest_addition.append(int(os.path.getmtime(f)))
+    
+    return(datetime.fromtimestamp(max(latest_addition)))
+    
+    
+    
+    
+    
+    
