@@ -166,6 +166,19 @@ def move_most_recent_files(outdir: str, urls: list):
         rename_and_move(sorted_file.split('/')[-1], get_home_dir() + '/Downloads', new_fns[i], outdir)
 #%%
 def get_update_date(outdir: str):
+    '''
+    Get the latest date added in the output directory.
+
+    Parameters
+    ----------
+    outdir : str
+        output directory.
+
+    Returns
+    -------
+    latest date of files added: datetime.datetime.
+
+    '''
     
     latest_addition = []
     
