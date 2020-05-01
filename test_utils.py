@@ -10,7 +10,8 @@ import os
 import shutil
 import unittest
 import pandas as pd
-from utils import try_mkdir_silent, rename_and_move, move_most_recent_files, get_home_dir, get_new_file_name
+from datetime import datetime
+from utils import try_mkdir_silent, rename_and_move, move_most_recent_files, get_home_dir, get_new_file_name, get_update_date
 
 
 class TestUtils(unittest.TestCase):
@@ -61,6 +62,17 @@ class TestUtils(unittest.TestCase):
 
         self.assertEqual(get_new_file_name(self.colocation_fn), 'Britain_2020_03_31.csv')
         self.assertEqual(get_new_file_name(self.mobility_fn), 'Britain_2020_03_10_0000.csv')
+        
+    def test_get_update_date(self):
+        
+        self.data = pd.DataFrame({'data':[1, 2, 3, 4, 5]})
+        
+        self.assertRaises(ValueError, get_update_date, './tmp1')
+        
+        self.data.to_csv('./tmp1/test.csv')
+        
+        self.assertIsInstance(get_update_date('./tmp1'), datetime)
+        
         
     def tearDown(self):
         shutil.rmtree('./tmp1')
