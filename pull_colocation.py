@@ -68,6 +68,9 @@ def main(_args):
         if update:
             data_dates = list(compress(data_dates, [x > get_update_date(country_output) for x in data_dates]))
         
+        if len(data_dates) == 0:
+            sys.exit('No datasets to download. Exiting.')
+        
         urls = get_urls(base_url, data_dates)
         
         download_data(urls, keys)
