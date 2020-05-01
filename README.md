@@ -31,6 +31,7 @@ $ make test
 
 Input your Facebook login credentials when prompted. These credentials are not stored on your computer but are passed directly to the webdriver.
 
+Specify whether you would like to update an existing data collection or download a full timeseres.
 
 ### Target dataset files
 
