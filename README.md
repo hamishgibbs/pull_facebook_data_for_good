@@ -5,7 +5,7 @@ Currently, Facebook Data for Good does not provide an API to automatically downl
 
 This program uses selenium webdriver to imitate the behaviour of an API for downloading the full timeseries of a data collection.
 
-*Disclaimer: This download routine will only work for those with access to Facebook Data for Good, and will only function for datasets to which the user has been granted access. This tool is not developed by or associated with Facebook, is is simply a utility to automate downloading data from the Facebook Data for Good Geoinsights Platform.*
+*Disclaimer: This download routine will only work for those with access to Facebook Data for Good, and will only function for datasets to which the user has been granted access. This tool is not developed by or associated with Facebook, it is simply a utility to automate downloading data from the Facebook Data for Good Geoinsights Platform.*
 
 ### Installation
 Clone this repository and alter the output path in the makefile
