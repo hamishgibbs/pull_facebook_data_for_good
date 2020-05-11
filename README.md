@@ -12,7 +12,7 @@ Clone this repository and alter the output path in the makefile
 
 ### Usage
 
-Currently functional for Mobility and Colocation datasets only.   
+Currently functional for Mobility, Population, and Colocation datasets only.   
 
 Download colocation data:  
 ```shell
@@ -22,6 +22,11 @@ $ make pull_colocation
 Download mobility data:  
 ```shell
 $ make pull_mobility
+```
+
+Download population data:  
+```shell
+$ make pull_population
 ```
 
 Run unit tests:
