@@ -189,9 +189,22 @@ def get_update_date(outdir: str):
     latest_addition = []
     
     for i, f in enumerate(glob.glob(outdir + '/*.csv')):
-        latest_addition.append(int(os.path.getmtime(f)))
+        
+        f_date_parse = f.split('/')[-1].split('.')[0].split('_')
+        
+        year = int(f_date_parse[1])
+        month = int(f_date_parse[2])
+        day = int(f_date_parse[3])
+        
+        try:
+            hour = int(f_date_parse[4].strip('0'))
+        except:
+            hour = 0
+        
+        
+        latest_addition.append(datetime(year, month, day, hour))
     
-    return(datetime.fromtimestamp(max(latest_addition)))
+    return(max(latest_addition))
     
     
     
