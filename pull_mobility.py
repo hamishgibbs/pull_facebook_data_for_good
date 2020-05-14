@@ -66,10 +66,9 @@ def main(_args):
             
         urls = get_urls(base_url, data_dates)
         
-        download_data(urls, keys)
-        
+        start_time = download_data(urls, keys)
     
-        move_most_recent_files(country_output, urls)
+        move_most_recent_files(country_output, urls, start_time)
     
     print('Success.')
 

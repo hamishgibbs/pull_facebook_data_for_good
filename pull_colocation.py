@@ -73,9 +73,9 @@ def main(_args):
         
         urls = get_urls(base_url, data_dates)
         
-        download_data(urls, keys)
+        start_time = download_data(urls, keys)
     
-        move_most_recent_files(_args[len(_args) - 1] + "/" + data_target.loc[i, 'country'] + '_colocation', urls)
+        move_most_recent_files(_args[len(_args) - 1] + "/" + data_target.loc[i, 'country'] + '_colocation', urls, start_time)
     
     print('Success.')
 
