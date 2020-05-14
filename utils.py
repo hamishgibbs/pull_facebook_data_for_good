@@ -61,11 +61,13 @@ def download_data(urls: list, keys: list):
 
     Returns
     -------
-    None.
+    Start time of downloads.
 
     '''
     
     driver = webdriver.Chrome(executable_path='/Applications/chromedriver')
+    
+    download_start = time.time()
     
     driver.get(urls[0])
     
@@ -85,6 +87,8 @@ def download_data(urls: list, keys: list):
     bar.finish()
     
     driver.quit()
+    
+    return(download_start)
 
 def rename_and_move(old_fn: str, old_dir: str, new_fn: str, new_dir: str):
     '''
@@ -132,7 +136,7 @@ def get_new_file_name(file: str):
     
     return(country + '_' + date + '.csv')
     
-def move_most_recent_files(outdir: str, urls: list):
+def move_most_recent_files(outdir: str, urls: list, download_start: float):
     '''
     get the most recent files form the download directory, rename them, and put them in the destination directory
 
@@ -157,13 +161,15 @@ def move_most_recent_files(outdir: str, urls: list):
     for f in glob.glob(get_home_dir() + '/Downloads/*.csv'):
         csv_files[f] = os.path.getctime(f)
         
-    sorted_files = [f[0] for f in sorted(csv_files.items(), key=operator.itemgetter(1), reverse=True)[:len(urls)]]
-    
-    new_fns = [get_new_file_name(file) for file in sorted_files]
-    
-    for i, sorted_file in enumerate(sorted_files):
+    downloaded_files = dict((k, v) for k, v in csv_files.items() if v >= download_start) 
         
-        rename_and_move(sorted_file.split('/')[-1], get_home_dir() + '/Downloads', new_fns[i], outdir)
+    #sorted_files = [f[0] for f in sorted(csv_files.items(), key=operator.itemgetter(1), reverse=True)[:len(urls)]]
+    
+    new_fns = [get_new_file_name(file) for file in downloaded_files]
+    
+    for i, f in enumerate(downloaded_files):
+        
+        rename_and_move(f.split('/')[-1], get_home_dir() + '/Downloads', new_fns[i], outdir)
 #%%
 def get_update_date(outdir: str):
     '''
@@ -183,9 +189,22 @@ def get_update_date(outdir: str):
     latest_addition = []
     
     for i, f in enumerate(glob.glob(outdir + '/*.csv')):
-        latest_addition.append(int(os.path.getmtime(f)))
+        
+        f_date_parse = f.split('/')[-1].split('.')[0].split('_')
+        
+        year = int(f_date_parse[1])
+        month = int(f_date_parse[2])
+        day = int(f_date_parse[3])
+        
+        try:
+            hour = int(f_date_parse[4].strip('0'))
+        except:
+            hour = 0
+        
+        
+        latest_addition.append(datetime(year, month, day, hour))
     
-    return(datetime.fromtimestamp(max(latest_addition)))
+    return(max(latest_addition))
     
     
     
