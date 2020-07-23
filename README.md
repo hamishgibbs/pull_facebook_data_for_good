@@ -10,6 +10,7 @@ This program uses selenium webdriver to imitate the behaviour of an API for down
 ### Installation
 Clone and `cd` into this repository.
 ```shell
+git clone https://github.com/hamishgibbs/pull_facebook_data_for_good.git
 cd pull_facebook_data_for_good
 ```
 
