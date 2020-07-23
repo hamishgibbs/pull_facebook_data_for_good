@@ -138,7 +138,7 @@ def get_new_file_name(file: str):
     
 def move_most_recent_files(outdir: str, urls: list, download_start: float):
     '''
-    get the most recent files form the download directory, rename them, and put them in the destination directory
+    get the most recent files from the download directory, rename them, and put them in the destination directory
 
     Parameters
     ----------

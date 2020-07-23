@@ -41,13 +41,15 @@ class TestUtils(unittest.TestCase):
         self.data1 = pd.DataFrame({'data':[1, 2, 3, 4, 5]})
         self.data1.to_csv(get_home_dir() + '/Downloads/test1.csv') 
         
+        download_start = datetime.now().timestamp()
+        
         self.data2 = pd.DataFrame({'data':[1, 2, 3, 4, 5]})
         self.data2.to_csv(get_home_dir() + '/Downloads/Britain Coronavirus Disease Prevention Map Mar 06 2020 Id Id Colocation Map_2020-03-31.csv') 
 
         self.assertTrue(os.path.exists(get_home_dir() + '/Downloads/test1.csv'))
         self.assertTrue(os.path.exists(get_home_dir() + '/Downloads/Britain Coronavirus Disease Prevention Map Mar 06 2020 Id Id Colocation Map_2020-03-31.csv'))
 
-        move_most_recent_files('./tmp1', ['url'])
+        move_most_recent_files('./tmp1', ['url'], download_start)
 
         self.assertTrue(os.path.exists(get_home_dir() + '/Downloads/test1.csv'))
         self.assertTrue(os.path.exists('./tmp1/Britain_2020_03_31.csv'))
@@ -66,10 +68,10 @@ class TestUtils(unittest.TestCase):
     def test_get_update_date(self):
         
         self.data = pd.DataFrame({'data':[1, 2, 3, 4, 5]})
-        
+                
         self.assertRaises(ValueError, get_update_date, './tmp1')
         
-        self.data.to_csv('./tmp1/test.csv')
+        self.data.to_csv('./tmp1/test_2020_01_01.csv')
         
         self.assertIsInstance(get_update_date('./tmp1'), datetime)
         
