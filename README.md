@@ -55,7 +55,7 @@ If you are not using a `.env` file, input your Facebook login credentials when p
 
 **Credentials are not stored on your computer but are passed directly to the Facebook login page by the web driver.**
 
-#### Notes:
+### Notes:
 This is an early release with limited functionality, suggestions and contributions are welcome. To request a feature or report an issue with this tool, please [open an issue](https://github.com/hamishgibbs/pull_facebook_data_for_good/issues/new).
 
 More info on Facebook Data for Good: https://dataforgood.fb.com/
