@@ -11,7 +11,7 @@ import shutil
 import unittest
 import pandas as pd
 from datetime import datetime
-from utils import try_mkdir_silent, rename_and_move, move_most_recent_files, get_home_dir, get_new_file_name, get_update_date
+from utils import try_mkdir_silent, rename_and_move, move_most_recent_files, get_home_dir, get_new_file_name, get_update_date, get_config, origin_to_datetime, get_download_variables, remove_empty_files
 
 
 class TestUtils(unittest.TestCase):
@@ -74,6 +74,38 @@ class TestUtils(unittest.TestCase):
         self.data.to_csv('./tmp1/test_2020_01_01.csv')
         
         self.assertIsInstance(get_update_date('./tmp1'), datetime)
+        
+    def test_get_config(self):
+        
+        config = get_config()
+        
+        self.assertIsInstance(config, dict)
+        
+    def test_origin_to_datetime(self):
+        
+        self.assertEqual(origin_to_datetime('2020_02_02'), datetime(2020, 2, 2))
+
+        self.assertEqual(origin_to_datetime('2020_02_02_08'), datetime(2020, 2, 2, 8))
+        
+        self.assertRaises(ValueError, origin_to_datetime, 'anything_else')
+    
+    def test_get_download_variables(self):
+
+        dl_variables = get_download_variables('Britain', 'Colocation')
+        
+        self.assertIsInstance(dl_variables, dict)
+        
+        self.assertEqual(list(dl_variables.keys()), ['id', 'origin'])
+
+    def test_remove_empty_files(self):
+        
+        open('./tmp1/empty.csv', 'w').close()
+        
+        self.assertTrue(os.path.exists('./tmp1/empty.csv'))
+        
+        remove_empty_files('./tmp1')
+                
+        self.assertFalse(os.path.exists('./tmp1/empty.csv'))
         
         
     def tearDown(self):

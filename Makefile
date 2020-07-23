@@ -4,13 +4,16 @@ COLDATASETS := colocation_datsets.csv #Target colocation datasets
 MOBDATASETS := mobility_datsets.csv #Target mobility datasets
 POPDATASETS := population_datsets.csv #Target mobility datasets
 
+pull:
+	python pull.py $(filter-out $@,$(MAKECMDGOALS))
+
 pull_colocation:
 	python pull_colocation.py ${COLDATASETS} ${OUTDIR}
 
-pull_mobility:	
+pull_mobility:
 	python pull_mobility.py ${MOBDATASETS} ${OUTDIR}
 
-pull_population:	
+pull_population:
 	python pull_population.py ${POPDATASETS} ${OUTDIR}
 
 test:

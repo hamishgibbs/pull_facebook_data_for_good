@@ -11,9 +11,9 @@ import glob
 import shutil
 from selenium import webdriver
 import time
-import operator
 from datetime import datetime
 from progress.bar import Bar
+import requests
 
 def try_mkdir_silent(path):
     '''
@@ -207,6 +207,141 @@ def get_update_date(outdir: str):
     return(max(latest_addition))
     
     
+def get_config():
+    '''
+    
+
+    Raises
+    ------
+    SystemExit
+        When requests.get() of .config file fails.
+    Exception
+        A .config file cannot be transformed to a dict.
+
+    Returns
+    -------
+    dict of .config file data.
+
+    '''
+    
+    config_url = 'https://raw.githubusercontent.com/hamishgibbs/pull_facebook_data_for_good/master/.config'
+    
+    try:
+        r = requests.get(config_url)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        raise SystemExit(e)
+    
+    try:
+        config = dict(x.split("=") for x in r.text.split("\n")[:-1])    
+    except:
+        raise Exception('Malformed .config file.')
+                
+    return(config)
+
+def origin_to_datetime(origin: str):
+    '''
+
+    Parameters
+    ----------
+    origin : str
+        string of dataset origin in format year_month_day(_hour).
+
+    Raises
+    ------
+    ValueError
+        When date parsing fails.
+
+    Returns
+    -------
+    datetime.datetime object.
+
+    '''
+    
+    if origin.count('_') == 3:
+        
+        origin = datetime.strptime(origin, '%Y_%m_%d_%H')
+        
+    elif origin.count('_') == 2:
+        
+        origin = datetime.strptime(origin, '%Y_%m_%d')
+        
+    else:
+        raise ValueError('Unknown date format.')
+        
+    return(origin) 
+    
+def get_download_variables(country: str, dataset: str):
+    '''
+
+    Parameters
+    ----------
+    country : str
+        Country to be downloaded.
+    dataset : str
+        Dataset to be downloaded.
+
+    Raises
+    ------
+    KeyError
+        When a country and dataset combination is not in the .config file.
+
+    Returns
+    -------
+    dict of download parameters (dataset id and origin).
+
+    '''
+    
+    config = get_config()
+    
+    try:
+        dataset_id = config['_'.join([country, dataset, 'ID'])]
+    except:
+        raise KeyError('No config value for {}. To add a new dataset, see the Readme.'.format('_'.join([country, dataset, 'ID'])))
+        
+    try:
+        dataset_origin = config['_'.join([country, dataset, 'Origin'])]
+    except:
+        raise KeyError('No config value for {}.  To add a new dataset, see the Readme.'.format('_'.join([country, dataset, 'Origin'])))
+    
+    dataset_origin = origin_to_datetime(dataset_origin)
+    
+    return({'id':dataset_id, 'origin':dataset_origin})
+    
+def remove_empty_files(country_output: str):
+    '''
+    
+
+    Parameters
+    ----------
+    country_output : str
+        Country-specific output directory.
+
+    Returns
+    -------
+    None.
+
+    '''
+    fns = [country_output + '/' + fn for fn in os.listdir(country_output)]
+    
+    size = [os.path.getsize(fn) for fn in fns]
+    
+    fns = dict(zip(fns, size))
+    
+    empty_fns = list({k: v for k, v in fns.items() if v == 0 }.keys())
+    
+    if len(empty_fns) == 0:
+        return(None)
+    else:
+        try:
+            
+            [os.remove(fn) for fn in empty_fns]
+            
+            print('Removed {} empty files.'.format(len(empty_fns)))
+            
+        except Exception as e:
+            print(e)
+            print('Unable to remove empty files.')
+        
     
     
     
