@@ -30,6 +30,8 @@ $ python pull.py Britain TileMobility
 
 The country name must exactly match the name stored in the `.config` file. For multi-word names, each word will be separated by `'_'`. *ie. New_Zealand*
 
+If the `.config` file is missing variables for a given dataset, please alter the `.config` file and open a PR to share with others.
+
 Run unit tests:
 ```python
 $ python -m unittest
