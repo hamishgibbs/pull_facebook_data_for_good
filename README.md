@@ -8,45 +8,49 @@ This program uses selenium webdriver to imitate the behaviour of an API for down
 *Disclaimer: This download routine will only work for those with access to Facebook Data for Good, and will only function for datasets to which the user has been granted access. This tool is not developed by or associated with Facebook, it is simply a utility to automate downloading data from the Facebook Data for Good Geoinsights Platform.*
 
 ### Installation
-Clone this repository and alter the output path in the makefile
+Clone and `cd` into this repository.
+```shell
+cd pull_facebook_data_for_good
+```
 
 ### Usage
 
-Currently functional for Mobility, Population, and Colocation datasets only.   
+Currently functional for `TileMobility`, `TilePopulation`, and `Colocation` datasets only.   
 
-Download colocation data:  
-```shell
-$ make pull_colocation
+The command line inteface follows the format:
+```python
+$ python pull.py [Country_Name] [DatasetName]
 ```
 
-Download mobility data:  
-```shell
-$ make pull_mobility
+For example, to pull the `TileMobility` dataset for Britain:
+```python
+$ python pull.py Britain TileMobility
 ```
 
-Download population data:  
-```shell
-$ make pull_population
-```
+The country name must exactly match the name stored in the `.config` file. For multi-word names, each word will be separated by `'_'`. *ie. New_Zealand*
 
 Run unit tests:
-```shell
-$ make test
+```python
+$ python -m unittest
 ```
 
-Input your Facebook login credentials when prompted. These credentials are not stored on your computer but are passed directly to the webdriver.
+### Dataset Attributes
 
-Specify whether to update an existing data collection or download a full timeseres.
+Dataset attributes are stored in the remote `.config` file of this repository. To add functionality for downloading another dataset, alter the `.config` file with two pieces of information:
+1. The dataset id, embedded in the url of the Geoinsights download page. For example, the dataset ID for the collection stored at `https://www.facebook.com/geoinsights-portal/downloads/?id=243071640406689` is `243071640406689`.
+2. The date origin of the dataset, the earliest date of data publication, in the format: `year_month_day(_hour)`.
 
-### Target dataset files
+Please open a PR to share the config variables for a new dataset in the `.config` file. 
 
-This tool uses csv files with one row per target dataset. These files store the country name, earliest date of data publication, and download ID in the format:  
+### Credentials
 
-`country, id, origin_year, origin_month, origin_day, origin_hour`
+Credentials can be input manually on each download or stored in a `.env` file.
 
-To download the full timeseries of a new dataset, open Geoinsights and navigate to the desired data collection. Click `See all available downloads`.
+If you are using a `.env` file, set the environment variables: `FB_USERNAME`, `FB_PASSWORD`, and `FB_OUTDIR`. 
 
-The dataset ID is embedded in the url of this page. For example, the dataset ID for the collection stored at `https://www.facebook.com/geoinsights-portal/downloads/?id=243071640406689` is `243071640406689`.
+If you are not using a `.env` file, input your Facebook login credentials when prompted. 
+
+**Credentials are not stored on your computer but are passed directly to the Facebook login page by the web driver.**
 
 #### Notes:
 This is an early release with limited functionality, suggestions and contributions are welcome. To request a feature or report an issue with this tool, please [open an issue](https://github.com/hamishgibbs/pull_facebook_data_for_good/issues/new).
