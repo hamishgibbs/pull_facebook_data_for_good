@@ -12,7 +12,7 @@ from utils import download_data, move_most_recent_files, get_update_date, remove
 from population import get_file_dates, get_urls
 from itertools import compress
 
-def pull_population(outdir, keys, country, dl_variables, update):
+def pull_population(outdir, keys, country, dl_variables, update, population_type):
     '''
     
     Parameters
@@ -34,7 +34,7 @@ def pull_population(outdir, keys, country, dl_variables, update):
 
     '''
     
-    country_output = outdir + "/" + country + '_population'
+    country_output = outdir + "/" + country + '_' + population_type
         
     base_url = 'https://www.facebook.com/geoinsights-portal/downloads/raster/?id=' + str(dl_variables['id']) + '&ds='
 

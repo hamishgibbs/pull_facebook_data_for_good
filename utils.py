@@ -292,7 +292,7 @@ def get_download_variables(country: str, dataset: str):
     '''
     
     config = get_config()
-    
+        
     try:
         dataset_id = config['_'.join([country, dataset, 'ID'])]
     except:

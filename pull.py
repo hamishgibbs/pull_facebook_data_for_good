@@ -50,7 +50,7 @@ def main():
     
     keys = [username, password]
     
-    if argv[2] not in ['TilePopulation', 'TileMovement', 'Colocation']:
+    if argv[2] not in ['TilePopulation', 'TileMovement', 'AdminMovement', 'Colocation']:
         raise ValueError("Dataset type not recognized. Currently supporting 'TilePopulation', 'TileMovement', and 'Colocation' datasets")
     
     dl_variables = get_download_variables(argv[1], argv[2])
@@ -69,9 +69,9 @@ def main():
         
         raise ValueError('Unknown update input. Choose "y", "n".')
     
-    if argv[2] == 'TileMovement':
+    if argv[2] in ['TileMovement', 'AdminMovement']:
     
-        pull_mobility(outdir, keys, argv[1], dl_variables, update)
+        pull_mobility(outdir, keys, argv[1], dl_variables, update, argv[2])
     
     elif argv[2] == 'Colocation':
         
@@ -79,7 +79,7 @@ def main():
     
     elif argv[2] == 'TilePopulation':
         
-        pull_population(outdir, keys, argv[1], dl_variables, update)
+        pull_population(outdir, keys, argv[1], dl_variables, update, argv[2])
 
 if __name__ == '__main__':
     main()

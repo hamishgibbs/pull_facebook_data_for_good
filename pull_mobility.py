@@ -11,7 +11,7 @@ from utils import download_data, move_most_recent_files, get_update_date, remove
 from mobility import get_file_dates, get_urls
 from itertools import compress
 
-def pull_mobility(outdir, keys, country, dl_variables, update):
+def pull_mobility(outdir, keys, country, dl_variables, update, movement_type):
     '''
     
     Parameters
@@ -33,7 +33,7 @@ def pull_mobility(outdir, keys, country, dl_variables, update):
 
     '''
             
-    country_output = outdir + "/" + country + '_mobility'
+    country_output = outdir + "/" + country + '_' + movement_type
         
     base_url = 'https://www.facebook.com/geoinsights-portal/downloads/vector/?id=' + str(dl_variables['id']) + '&ds='
 
