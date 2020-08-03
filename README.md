@@ -53,7 +53,7 @@ If you are using a `.env` file, set the environment variables: `FB_USERNAME`, `F
 
 If you are not using a `.env` file, input your Facebook login credentials when prompted. 
 
-**Credentials are not stored on your computer but are passed directly to the Facebook login page by the web driver.**
+**Unless you use a `.env` file, credentials are not stored on your computer but are passed directly to the Facebook login page by the web driver.**
 
 ### Notes:
 This is an early release with limited functionality, suggestions and contributions are welcome. To request a feature or report an issue with this tool, please [open an issue](https://github.com/hamishgibbs/pull_facebook_data_for_good/issues/new).
