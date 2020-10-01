@@ -17,7 +17,7 @@ def get_file_dates(earliest_date):
         data_dates.append(date)
         date = date + timedelta(hours=8)
         
-    # need to add %200000' with proper time value at 3rd position to end of url
+ # need to add %200000 with proper time value at 3rd position to end of url
         
     return(data_dates)
 
