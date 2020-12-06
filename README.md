@@ -1,8 +1,6 @@
 # pull_facebook_data_for_good
 Imitate an API for downloading data from Facebook Data for Good.
 
-Currently, Facebook Data for Good does not provide an API to automatically download or update datasets.
-
 This library uses selenium webdriver to imitate the behaviour of an API for downloading the full timeseries of a data collection.
 
 This library is developed and tested in Python 3.8.
