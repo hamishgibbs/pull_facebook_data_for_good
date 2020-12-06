@@ -1,115 +1,68 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Apr  5 10:03:05 2020
-
-@author: hamishgibbs
-"""
-
-import os
-import shutil
-import unittest
-import pandas as pd
+import pytest
+import utils
 from datetime import datetime
-from utils import try_mkdir_silent, rename_and_move, move_most_recent_files, get_home_dir, get_new_file_name, get_update_date, get_config, origin_to_datetime, get_download_variables, remove_empty_files
 
 
-class TestUtils(unittest.TestCase):
-    
-    def setUp(self):
-        try_mkdir_silent('./tmp1')
-        try_mkdir_silent('./tmp2')
-        
-    def test_get_home_dir(self):
-        self.assertTrue('~' not in get_home_dir())
-                                  
-    def test_try_mkdir_silent(self):
-        self.assertTrue(os.path.exists('./tmp1'))
-        self.assertTrue(os.path.exists('./tmp2'))
-        
-    def test_rename_and_move(self):
-        
-        self.data = pd.DataFrame({'data':[1, 2, 3, 4, 5]})
-        self.data.to_csv('./tmp1/test.csv')    
-        
-        self.assertTrue(os.path.exists('./tmp1/test.csv'))
-        rename_and_move('test.csv', './tmp1', 'test_move.csv', './tmp2')
-        self.assertTrue(os.path.exists('./tmp2/test_move.csv'))
-        
-    def test_move_most_recent_files(self):
-        
-        self.data1 = pd.DataFrame({'data':[1, 2, 3, 4, 5]})
-        self.data1.to_csv(get_home_dir() + '/Downloads/test1.csv') 
-        
-        download_start = datetime.now().timestamp()
-        
-        self.data2 = pd.DataFrame({'data':[1, 2, 3, 4, 5]})
-        self.data2.to_csv(get_home_dir() + '/Downloads/Britain Coronavirus Disease Prevention Map Mar 06 2020 Id Id Colocation Map_2020-03-31.csv') 
+# Test date_str_to_datetime
+def test_date_str_to_datetime_hours():
 
-        self.assertTrue(os.path.exists(get_home_dir() + '/Downloads/test1.csv'))
-        self.assertTrue(os.path.exists(get_home_dir() + '/Downloads/Britain Coronavirus Disease Prevention Map Mar 06 2020 Id Id Colocation Map_2020-03-31.csv'))
+    s = '2020_04_30_16'
 
-        move_most_recent_files('./tmp1', ['url'], download_start)
+    res = utils.date_str_to_datetime(s)
 
-        self.assertTrue(os.path.exists(get_home_dir() + '/Downloads/test1.csv'))
-        self.assertTrue(os.path.exists('./tmp1/Britain_2020_03_31.csv'))
+    assert type(res) is datetime
 
-        
-        os.remove(get_home_dir() + '/Downloads/test1.csv')
-        
-    def test_get_new_file_name(self):
-        
-        self.colocation_fn = 'Britain Coronavirus Disease Prevention Map Mar 06 2020 Id Id Colocation Map_2020-03-31.csv'
-        self.mobility_fn = 'Britain Coronavirus Disease Prevention Map Mar 06 2020 Id Id  Movement between Tiles_2020-03-10 0000.csv'
 
-        self.assertEqual(get_new_file_name(self.colocation_fn), 'Britain_2020_03_31.csv')
-        self.assertEqual(get_new_file_name(self.mobility_fn), 'Britain_2020_03_10_0000.csv')
-        
-    def test_get_update_date(self):
-        
-        self.data = pd.DataFrame({'data':[1, 2, 3, 4, 5]})
-                
-        self.assertRaises(ValueError, get_update_date, './tmp1')
-        
-        self.data.to_csv('./tmp1/test_2020_01_01.csv')
-        
-        self.assertIsInstance(get_update_date('./tmp1'), datetime)
-        
-    def test_get_config(self):
-        
-        config = get_config()
-        
-        self.assertIsInstance(config, dict)
-        
-    def test_origin_to_datetime(self):
-        
-        self.assertEqual(origin_to_datetime('2020_02_02'), datetime(2020, 2, 2))
+def test_date_str_to_datetime_days():
 
-        self.assertEqual(origin_to_datetime('2020_02_02_08'), datetime(2020, 2, 2, 8))
-        
-        self.assertRaises(ValueError, origin_to_datetime, 'anything_else')
-    
-    def test_get_download_variables(self):
+    s = '2020_04_30'
 
-        dl_variables = get_download_variables('Britain', 'Colocation')
-        
-        self.assertIsInstance(dl_variables, dict)
-        
-        self.assertEqual(list(dl_variables.keys()), ['id', 'origin'])
+    res = utils.date_str_to_datetime(s)
 
-    def test_remove_empty_files(self):
-        
-        open('./tmp1/empty.csv', 'w').close()
-        
-        self.assertTrue(os.path.exists('./tmp1/empty.csv'))
-        
-        remove_empty_files('./tmp1')
-                
-        self.assertFalse(os.path.exists('./tmp1/empty.csv'))
-        
-        
-    def tearDown(self):
-        shutil.rmtree('./tmp1')
-        shutil.rmtree('./tmp2')
+    assert type(res) is datetime
 
-    
+
+def test_date_str_to_datetime_errors():
+
+    s = 'not a date'
+
+    with pytest.raises(ValueError):
+
+        utils.date_str_to_datetime(s)
+
+
+@pytest.fixture
+def example_date_config():
+    return {
+            "start_date": datetime(2020, 1, 1),
+            "end_date": datetime(2020, 1, 2),
+            "frequency": 8
+        }
+
+
+# Test get_file_dates
+def test_get_file_dates_8h(example_date_config):
+
+    res = utils.get_file_dates(example_date_config['start_date'],
+                               example_date_config['end_date'],
+                               8)
+
+    assert len(res) == 3
+
+
+def test_get_file_dates_12h(example_date_config):
+
+    res = utils.get_file_dates(example_date_config['start_date'],
+                               example_date_config['end_date'],
+                               12)
+
+    assert len(res) == 2
+
+
+def test_get_file_dates_type(example_date_config):
+
+    res = utils.get_file_dates(example_date_config['start_date'],
+                               example_date_config['end_date'],
+                               12)
+
+    assert type(res[0]) is datetime
