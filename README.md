@@ -41,7 +41,13 @@ pip install git+https://github.com/hamishgibbs/pull_facebook_data_for_good.git
 
 Currently functional for `TileMovement` datasets only.   
 
-The command line interface follows the format:
+Use the CLI from the directory where you would like data to be downloaded:
+
+```shell
+cd path/to/downloaded/data
+```
+
+The CLI follows the format:
 
 ```python
 pull_fb --dataset_name --area
