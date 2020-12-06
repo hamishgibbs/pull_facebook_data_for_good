@@ -49,19 +49,19 @@ cd path/to/downloaded/data
 
 The CLI follows the format:
 
-```python
+```shell
 pull_fb --dataset_name --area
 ```
 
 For example, to pull the `TileMovement` dataset for `Britain`:
 
-```python
+```shell
 pull_fb --dataset_name TileMovement --area Britain
 ```
 
 or:
 
-```python
+```shell
 pull_fb --d TileMovement --a Britain
 ```
 
