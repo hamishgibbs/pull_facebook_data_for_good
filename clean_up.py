@@ -4,9 +4,9 @@ import pandas as pd
 
 
 def remove_empty_files(outdir: str):
-    '''
+    """
     Function to remove files with 0 rows
-    '''
+    """
 
     downloaded_files = glob.glob(outdir)
 
