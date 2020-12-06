@@ -67,11 +67,19 @@ The country name must exactly match the name stored in the [`.config`](https://g
 
 If the [`.config`](https://github.com/hamishgibbs/pull_facebook_data_for_good/blob/master/.config) file is missing variables for a given dataset, please alter the [`.config`](https://github.com/hamishgibbs/pull_facebook_data_for_good/blob/master/.config) file and open a PR to share with others.
 
+### Chrome Web Driver
+
+To download data, this library relies on [`selenium`](https://selenium-python.readthedocs.io/) and [`ChromeDriver`](https://chromedriver.chromium.org/).
+
+This requires a `chromedriver` executable. which can be downloaded [here](https://chromedriver.chromium.org/downloads). Make sure that your `Chrome` version is the same as your `chromedriver` version.
+
+`pull_facebook_data_for_good` assumes that the `chromedriver` executable is located at `Applications/chromedriver`. To supply a different path, use the argument `--driver_path` (`-driver`) from the command line.
+
 ### Credentials
 
 Credentials must be input manually on each download.
 
-**Credentials are not stored on your computer but are passed directly to the Facebook login page by the web driver.**
+**Credentials are not stored on your computer and are passed directly to the Facebook login page by the web driver.**
 
 ### Tests
 
