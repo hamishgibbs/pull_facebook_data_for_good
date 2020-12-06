@@ -5,7 +5,7 @@ This library uses selenium webdriver to imitate the behaviour of an API for down
 
 This library is developed and tested in Python 3.8.
 
-*Disclaimer: This download routine will only work for those with access to the Facebook Geoinsights platform, and will only function for datasets to which the user has been granted access. This tool is not developed by or associated with Facebook, it is simply a utility to automate downloading data from the Geoinsights Platform.*
+*Disclaimer: This download routine will only work for those with access to the Facebook Geoinsights platform, and will only function for datasets to which the user has been granted access. This tool is not developed by or associated with Facebook, it is simply a utility to automate downloading data from the Geoinsights platform.*
 
 ### Installation
 
@@ -44,34 +44,34 @@ Currently functional for `TileMovement` datasets only.
 The command line interface follows the format:
 
 ```python
-$ pull_fb --dataset_name --area
+pull_fb --dataset_name --area
 ```
 
 For example, to pull the `TileMovement` dataset for `Britain`:
 
 ```python
-$ pull_fb --dataset_name TileMovement --area Britain
+pull_fb --dataset_name TileMovement --area Britain
 ```
 
 or:
 
 ```python
-$ pull_fb --d TileMovement --a Britain
+pull_fb --d TileMovement --a Britain
 ```
 
 The country name must exactly match the name stored in the [`.config`](https://github.com/hamishgibbs/pull_facebook_data_for_good/blob/master/.config) file. For multi-word names, each word will be separated by `'_'`. *ie. New_Zealand*
 
 **Please Note:**
 
-If the [`.config`](https://github.com/hamishgibbs/pull_facebook_data_for_good/blob/master/.config) file is missing variables for a given dataset, please alter the [`.config`](https://github.com/hamishgibbs/pull_facebook_data_for_good/blob/master/.config) file and open a PR to share with others.
+If the [`.config`](https://github.com/hamishgibbs/pull_facebook_data_for_good/blob/master/.config) file is missing variables for a given dataset, please alter the [`.config`](https://github.com/hamishgibbs/pull_facebook_data_for_good/blob/master/.config) file and open a pull request to share with others.
 
 ### Chrome Web Driver
 
 To download data, this library relies on [`selenium`](https://selenium-python.readthedocs.io/) and [`ChromeDriver`](https://chromedriver.chromium.org/).
 
-This requires a `chromedriver` executable. which can be downloaded [here](https://chromedriver.chromium.org/downloads). Make sure that your `Chrome` version is the same as your `chromedriver` version.
+This requires a `chromedriver` executable which can be downloaded [here](https://chromedriver.chromium.org/downloads). Make sure that your `Chrome` version is the same as your `chromedriver` version.
 
-`pull_facebook_data_for_good` assumes that the `chromedriver` executable is located at `Applications/chromedriver`. To supply a different path, use the argument `--driver_path` (`-driver`) from the command line.
+`pull_facebook_data_for_good` assumes that the `chromedriver` executable is located at `Applications/chromedriver`. To supply a different path, use the argument `--driver_path` or `-driver` from the command line.
 
 ### Credentials
 
@@ -86,7 +86,7 @@ This project is tested with [`tox`](https://tox.readthedocs.io/en/latest/).
 To run unit tests:
 
 ```shell
-$ tox
+tox
 ```
 
 ### Contributions
@@ -107,7 +107,7 @@ To add the ability to download another dataset, alter the `.config` file with tw
 
 2. The date origin of the dataset, the earliest date of data publication, in the format: `year_month_day(_hour)`. i.e. `2020_01_01_00`.
 
-Please open a Pull Request to share the config variables for a new dataset with everyone.
+Please open a pull request to share the config variables for a new dataset with everyone.
 
 #### Other contributions:
 
