@@ -8,8 +8,11 @@ def get_credentials():
     Future: add option to cache encrypted credentials
     """
 
+    # Prompt for username
     username = input("Email: ")
 
+    # Prompt for password
     password = getpass("Password: ")
 
+    # Return dictionary of username and password
     return {"email": username, "password": password}

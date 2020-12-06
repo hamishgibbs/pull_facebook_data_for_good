@@ -43,14 +43,18 @@ def cli(
     """
 
     print("Reading dataset configuration...")
+    # Get config variables from repository
     config = utils.get_download_variables(dataset_name, area, end_date)
 
+    # Get date sequence between start and end dates
     data_dates = utils.get_file_dates(
         config["start_date"], config["end_date"], frequency
     )
 
+    # Get downloaded dates from outdir
     existing_dates = utils.get_existing_dates(outdir, area)
 
+    # Only download dates that have not already been downloaded
     download_dates = list(set(data_dates).difference(set(existing_dates)))
 
     # Get url of each of dataset
@@ -62,4 +66,8 @@ def cli(
     # Download url sequence and move to output directory
     driver.download_data(download_urls, area, driver_path, keys, outdir)
 
+    # Remove files with no rows (bug with web portal)
     clean_up.remove_empty_files(outdir)
+
+    # Success message
+    print('Success.')
