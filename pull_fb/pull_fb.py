@@ -1,11 +1,11 @@
 import click
 import os
 from datetime import datetime
-import utils
-import url
-import driver
-import credentials
-import clean_up
+import pull_fb.utils as utils
+import pull_fb.url as url
+import pull_fb.driver as driver
+import pull_fb.credentials as credentials
+import pull_fb.clean_up as clean_up
 
 
 @click.command()

@@ -5,13 +5,12 @@ setuptools.setup(
     version="0.0.1",
     author="Hamish Gibbs",
     author_email="Hamish.Gibbs@lshtm.ac.uk",
-    description="CLI for downloading data from FB data for good.",
+    description="CLI for downloading data from Facebook data for good.",
     url="https://github.com/hamishgibbs/pull_facebook_data_for_good",
-    py_modules=["pull_fb", "utils", "url", "driver", "credentials", "clean_up"],
+    packages=setuptools.find_packages(),
     install_requires=[
         "Click",
     ],
-    packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -20,6 +19,6 @@ setuptools.setup(
     python_requires=">=3.6",
     entry_points="""
         [console_scripts]
-        pull_fb=pull_fb:cli
+        pull_fb=pull_fb.pull_fb:cli
     """,
 )
