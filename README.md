@@ -1,4 +1,6 @@
 # pull_facebook_data_for_good
+[![GitHub Actions (Tests)](https://github.com/hamishgibbs/pull_facebook_data_for_good/workflows/Tests/badge.svg)](https://github.com/hamishgibbs/pull_facebook_data_for_good)
+
 Imitate an API for downloading data from Facebook Data for Good.
 
 This library uses selenium webdriver to imitate the behaviour of an API for downloading the full timeseries of a data collection.
