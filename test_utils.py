@@ -1,5 +1,5 @@
 import pytest
-import utils
+from pull_fb import utils
 from datetime import datetime
 
 
