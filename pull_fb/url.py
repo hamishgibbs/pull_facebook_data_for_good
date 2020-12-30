@@ -4,11 +4,15 @@ def format_urls(dataset_name: str, dataset_id: str, download_dates: list):
     # Define base urls for each supported dataset
     # Move this into a config in the future
     base_urls = {
-        "TileMovement": "https://www.facebook.com/geoinsights-portal/downloads/vector/?id={}&ds={}"
+        "TileMovement": "https://www.facebook.com/geoinsights-portal/downloads/vector/?id={}&ds={}",
+        "TilePopulation": "https://www.facebook.com/geoinsights-portal/downloads/raster/?id={}&ds={}"
     }
 
     # Define date formats for download urls of each dataset
-    date_formats = {"TileMovement": "%Y-%m-%d+%H%M"}
+    date_formats = {
+        "TileMovement": "%Y-%m-%d+%H%M",
+        "TilePopulation": "%Y-%m-%d+%H%M"
+    }
 
     # Define the appropriate base_url
     base_url = base_urls[dataset_name]
