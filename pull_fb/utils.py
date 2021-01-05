@@ -4,18 +4,20 @@ import glob
 from datetime import datetime, timedelta
 
 
-def get_config():
+def get_config(config_path):
     """
     Funciton to get configuration file from online repository
     """
 
-    # url for config variables
-    config_url = "https://raw.githubusercontent.com/hamishgibbs/pull_facebook_data_for_good/master/.config"
-
     # Try to get config file or raise exception
     try:
-
-        r = requests.get(config_url)
+        if config_path.startswith('http'):
+            r = requests.get(config_path)
+            config_var = r.text.split("\n")[:-1]
+        else:
+            with open(config_path) as f:
+                r = f.readlines()
+            config_var = [x.replace("\n", "") for x in r]
 
     except requests.exceptions.RequestException as e:
 
@@ -23,7 +25,7 @@ def get_config():
 
     # Extract config variables to dictionary or raise Exception
     try:
-        config = dict(x.split("=") for x in r.text.split("\n")[:-1])
+        config = dict(x.split("=") for x in config_var)
 
     except Exception:
 
@@ -33,7 +35,7 @@ def get_config():
     return(config)
 
 
-def get_download_variables(dataset: str, country: str, end_date: str):
+def get_download_variables(dataset: str, country: str, end_date: str, config_path: str):
     """
     Function to get downlaod variable for a particular dataset from config file
 
@@ -41,7 +43,7 @@ def get_download_variables(dataset: str, country: str, end_date: str):
     """
 
     # Get config variables from repository
-    config = get_config()
+    config = get_config(config_path)
 
     # Extract dataset id or raise missing dataset error
     try:
@@ -134,8 +136,8 @@ def get_existing_dates(outdir: str, area: str):
     Function to get dates from files in the outdir
     """
 
-    # Extract file names from csv files in outdir
-    date_str = [os.path.basename(x) for x in glob.glob(outdir + "/*.csv")]
+    # Extract file names from csv files in outdir (only for current area)
+    date_str = [os.path.basename(x) for x in glob.glob(outdir + "/" + area + "_" + "*.csv")]
 
     # Remove area from file name
     date_str = [x.replace(area + "_", "") for x in date_str]
