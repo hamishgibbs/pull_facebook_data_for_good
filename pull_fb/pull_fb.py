@@ -32,8 +32,14 @@ import pull_fb.clean_up as clean_up
     help="Path to webdriver.",
     default="/Applications/chromedriver",
 )
+@click.option(
+    "-config",
+    "--config_path",
+    help=".config path. Default is requested from the repo, otherwise is read from provided local path or other http connection.",
+    default="https://raw.githubusercontent.com/hamishgibbs/pull_facebook_data_for_good/master/.config",
+)
 def cli(
-    dataset_name, area, outdir=None, end_date=None, frequency=None, driver_path=None
+    dataset_name, area, outdir=None, end_date=None, frequency=None, driver_path=None, config_path=None
 ):
     """
     Entry point for the pull_fb cli.
@@ -44,7 +50,7 @@ def cli(
 
     print("Reading dataset configuration...")
     # Get config variables from repository
-    config = utils.get_download_variables(dataset_name, area, end_date)
+    config = utils.get_download_variables(dataset_name, area, end_date, config_path)
 
     # Get date sequence between start and end dates
     data_dates = utils.get_file_dates(

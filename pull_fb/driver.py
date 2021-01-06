@@ -56,8 +56,9 @@ def download_data(
     driver.find_element_by_xpath('//*[@id="loginbutton"]').click()
 
     # Start download bar
+    print("\n\n---------------------")
     bar = Bar("Downloading", max=len(download_urls))
-
+	
     # For each download url, download dataset
     for i, url in enumerate(download_urls):
 
