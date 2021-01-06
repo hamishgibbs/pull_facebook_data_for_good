@@ -42,7 +42,7 @@ pip install git+https://github.com/hamishgibbs/pull_facebook_data_for_good.git
 
 ### Usage
 
-Currently functional for `TileMovement` datasets only.   
+Currently functional for `TileMovement` and `TilePopulation` datasets only.   
 
 Use the CLI from the directory where you would like data to be downloaded:
 
@@ -70,6 +70,8 @@ pull_fb --d TileMovement --a Britain
 
 The country name must exactly match the name stored in the [`.config`](https://github.com/hamishgibbs/pull_facebook_data_for_good/blob/master/.config) file. For multi-word names, each word will be separated by `'_'`. *ie. New_Zealand*
 
+For a full API reference, please see the [Reference](#reference).
+
 **Please Note:**
 
 If the [`.config`](https://github.com/hamishgibbs/pull_facebook_data_for_good/blob/master/.config) file is missing variables for a given dataset, please alter the [`.config`](https://github.com/hamishgibbs/pull_facebook_data_for_good/blob/master/.config) file and open a pull request to share with others.
@@ -87,6 +89,36 @@ This requires a `chromedriver` executable which can be downloaded [here](https:/
 Credentials must be input manually on each download.
 
 **Credentials are not stored on your computer and are passed directly to the Facebook login page by the web driver.**
+
+### Reference
+
+*--dataset_name* (*-d*)
+
+Name of the data collection to be downloaded (i.e. "TileMovement", "TilePopulation").
+
+*--area* (*-a*)
+
+Name of the area of the data collection (i.e. "Britain").
+
+*--outdir* (*-o*)
+
+Directory where datasets will be downloaded (default: current directory - `os.getcwd()`).
+
+*--end_date* (*-e*)
+
+Dataset end date (default: `datetime.datetime.now()`).
+
+*--frequency* (*-f*)
+
+Dataset update frequency in hours (default: `8`).
+
+*--driver_path* (*-driver*)
+
+Path to ChromeDriver (see download options [here](https://chromedriver.chromium.org/)).
+
+*--config* (*-config*)
+
+Path to `.config` file (default: config in remote repo).
 
 ### Tests
 
