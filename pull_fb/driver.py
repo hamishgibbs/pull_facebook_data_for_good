@@ -58,7 +58,7 @@ def download_data(
     # Start download bar
     print("\n\n---------------------")
     bar = Bar("Downloading", max=len(download_urls))
-	
+
     # For each download url, download dataset
     for i, url in enumerate(download_urls):
 
@@ -100,7 +100,7 @@ def wait_for_download(download_start: float, outdir: str):
         new_files = sum([x > download_start for x in ctimes])
 
         # Wait 3 seconds and retry
-        time.sleep(3)
+        time.sleep(0.5)
 
     # Latest downloaded file has the maximum creation time in the outdir
     latest_file = max(downloaded_files, key=os.path.getctime)
