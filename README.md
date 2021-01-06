@@ -140,7 +140,7 @@ To request a feature or report an issue with this tool, please [open an issue](h
 
 Dataset attributes are stored in the [`.config`](https://github.com/hamishgibbs/pull_facebook_data_for_good/blob/master/.config) file.
 
-Each time you use the library, `pull_facebook_data_for_good` will look for dataset configuration variables here.
+Each time you use the library, `pull_facebook_data_for_good` will look for dataset configuration variables here unless you specify a path to another `.config` file.
 
 To add the ability to download another dataset, alter the `.config` file with two pieces of information:
 
