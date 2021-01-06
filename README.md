@@ -94,11 +94,11 @@ Credentials must be input manually on each download.
 
 *--dataset_name* (*-d*)
 
-Name of the data collection to be downloaded (i.e. "TileMovement", "TilePopulation").
+Name of the data collection to be downloaded (i.e. `"TileMovement"`, `"TilePopulation"`).
 
 *--area* (*-a*)
 
-Name of the area of the data collection (i.e. "Britain").
+Name of the area of the data collection (i.e. `"Britain"`).
 
 *--outdir* (*-o*)
 
@@ -118,7 +118,7 @@ Path to ChromeDriver (see download options [here](https://chromedriver.chromium.
 
 *--config* (*-config*)
 
-Path to `.config` file (default: config in remote repo).
+Path to `.config` file (default: [config](https://raw.githubusercontent.com/hamishgibbs/pull_facebook_data_for_good/master/.config) in remote repo. Also accepts local paths).
 
 ### Tests
 
