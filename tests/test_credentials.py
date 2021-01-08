@@ -3,7 +3,10 @@ try:
 except Exception:
     pass
 
-from pull_fb import credentials
+try:
+    from pull_fb import credentials
+except Exception:
+    pass
 
 
 def test_credentials_filled():
