@@ -1,3 +1,8 @@
+try:
+    from pull_fb.pull_fb import credentials
+except Exception:
+    pass
+
 from pull_fb import credentials
 
 
