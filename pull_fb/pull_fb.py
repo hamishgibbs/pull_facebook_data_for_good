@@ -50,6 +50,12 @@ import pull_fb.clean_up as clean_up
     help="Facebook password.",
     default=None
 )
+@click.option(
+    "-headless",
+    "--headless",
+    help="Use chromedriver headless.",
+    is_flag=True
+)
 def cli(
     dataset_name,
     area,
@@ -59,7 +65,8 @@ def cli(
     driver_path=None,
     config_path=None,
     username=None,
-    password=None):
+    password=None,
+    headless=None):
     """
     Entry point for the pull_fb cli.
 
