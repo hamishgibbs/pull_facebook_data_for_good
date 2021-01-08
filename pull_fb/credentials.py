@@ -1,7 +1,7 @@
 from getpass import getpass
 
 
-def get_credentials():
+def get_credentials(username, password):
     """
     Prompt for Facebook login get_credentials
 
@@ -9,10 +9,14 @@ def get_credentials():
     """
 
     # Prompt for username
-    username = input("Email: ")
+    if username is None:
+
+        username = input("Email: ")
 
     # Prompt for password
-    password = getpass("Password: ")
+    if password is None:
+
+        password = getpass("Password: ")
 
     # Return dictionary of username and password
     return {"email": username, "password": password}

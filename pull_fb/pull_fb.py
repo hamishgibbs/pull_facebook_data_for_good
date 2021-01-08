@@ -38,9 +38,28 @@ import pull_fb.clean_up as clean_up
     help=".config path. Default is requested from the repo, otherwise is read from provided local path or other http connection.",
     default="https://raw.githubusercontent.com/hamishgibbs/pull_facebook_data_for_good/master/.config",
 )
+@click.option(
+    "-user",
+    "--username",
+    help="Facebook username.",
+    default=None
+)
+@click.option(
+    "-pass",
+    "--password",
+    help="Facebook password.",
+    default=None
+)
 def cli(
-    dataset_name, area, outdir=None, end_date=None, frequency=None, driver_path=None, config_path=None
-):
+    dataset_name,
+    area,
+    outdir=None,
+    end_date=None,
+    frequency=None,
+    driver_path=None,
+    config_path=None,
+    username=None,
+    password=None):
     """
     Entry point for the pull_fb cli.
 
@@ -67,7 +86,7 @@ def cli(
     download_urls = url.format_urls(dataset_name, config["dataset_id"], download_dates)
 
     # Get credentials here
-    keys = credentials.get_credentials()
+    keys = credentials.get_credentials(username, password)
 
     # Download url sequence and move to output directory
     driver.download_data(download_urls, area, driver_path, keys, outdir)
