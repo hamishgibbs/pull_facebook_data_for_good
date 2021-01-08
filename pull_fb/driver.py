@@ -13,7 +13,8 @@ def download_data(
     driver_path: str,
     keys: dict,
     outdir: str,
-    driver_flags: list
+    driver_flags: list,
+    driver_prefs: dict
 ):
     """
     Function to instantiate web driver, stuff credentials, and repeately hit download urls
@@ -23,7 +24,7 @@ def download_data(
     chrome_options = webdriver.ChromeOptions()
 
     # Define download directory as outdir
-    prefs = {"download.default_directory": outdir}
+    prefs = driver_prefs
 
     # Apply options to chrome driver
     chrome_options.add_experimental_option("prefs", prefs)

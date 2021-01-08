@@ -57,6 +57,12 @@ import pull_fb.clean_up as clean_up
     multiple=True,
     default=[]
 )
+@click.option(
+    "-driver_prefs",
+    "--driver_prefs",
+    help="Preferences passed to chromedriver.",
+    default={"download.default_directory": os.getcwd()}
+)
 def cli(
     dataset_name,
     area,
@@ -67,7 +73,8 @@ def cli(
     config_path=None,
     username=None,
     password=None,
-    driver_flags=None):
+    driver_flags=None,
+    driver_prefs=None):
     """
     Entry point for the pull_fb cli.
 
@@ -97,7 +104,7 @@ def cli(
     keys = credentials.get_credentials(username, password)
 
     # Download url sequence and move to output directory
-    driver.download_data(download_urls, area, driver_path, keys, outdir, driver_flags)
+    driver.download_data(download_urls, area, driver_path, keys, outdir, driver_flags, driver_prefs)
 
     # Remove files with no rows (bug with web portal)
     clean_up.remove_empty_files(outdir)
