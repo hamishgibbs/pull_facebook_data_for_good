@@ -54,6 +54,7 @@ import pull_fb.clean_up as clean_up
     "-driver_flags",
     "--driver_flags",
     help="Flags passed to chromedriver.",
+    multiple=True,
     default=[]
 )
 def cli(
