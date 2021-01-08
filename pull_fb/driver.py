@@ -8,7 +8,12 @@ from progress.bar import Bar
 
 
 def download_data(
-    download_urls: list, area: str, driver_path: str, keys: dict, outdir: str
+    download_urls: list,
+    area: str,
+    driver_path: str,
+    keys: dict,
+    outdir: str,
+    driver_flags: list
 ):
     """
     Function to instantiate web driver, stuff credentials, and repeately hit download urls
@@ -22,6 +27,13 @@ def download_data(
 
     # Apply options to chrome driver
     chrome_options.add_experimental_option("prefs", prefs)
+
+    # If flags are passed to chromedriver, add these to driver options
+    if len(driver_flags) > 0:
+
+        for flag in driver_flags:
+
+            chrome_options.add_argument(flag)
 
     # Instantiate web driver
     driver = webdriver.Chrome(

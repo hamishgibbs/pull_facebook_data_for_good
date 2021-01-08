@@ -51,10 +51,10 @@ import pull_fb.clean_up as clean_up
     default=None
 )
 @click.option(
-    "-headless",
-    "--headless",
-    help="Use chromedriver headless.",
-    is_flag=True
+    "-driver_flags",
+    "--driver_flags",
+    help="Flags passed to chromedriver.",
+    default=[]
 )
 def cli(
     dataset_name,
@@ -66,7 +66,7 @@ def cli(
     config_path=None,
     username=None,
     password=None,
-    headless=None):
+    driver_flags=None):
     """
     Entry point for the pull_fb cli.
 
@@ -96,7 +96,7 @@ def cli(
     keys = credentials.get_credentials(username, password)
 
     # Download url sequence and move to output directory
-    driver.download_data(download_urls, area, driver_path, keys, outdir)
+    driver.download_data(download_urls, area, driver_path, keys, outdir, driver_flags)
 
     # Remove files with no rows (bug with web portal)
     clean_up.remove_empty_files(outdir)
