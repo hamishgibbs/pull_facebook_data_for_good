@@ -1,16 +1,5 @@
-try:
-    from pull_fb.pull_fb import utils
-except Exception:
-    pass
-
-try:
-    from pull_fb import utils
-except Exception:
-    pass
-
-
 import pytest
-
+from pull_fb import utils
 from datetime import datetime
 
 
