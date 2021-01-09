@@ -113,14 +113,14 @@ def cli(
 
 def pull_fb(dataset_name,
             area,
-            outdir=None,
-            end_date=None,
-            frequency=None,
-            driver_path=None,
-            config_path=None,
-            username=None,
-            password=None,
-            driver_flags=None,
-            driver_prefs=None):
+            outdir: str = os.getcwd(),
+            end_date: datetime = datetime.now(),
+            frequency: int = 8,
+            driver_path: str = "/Applications/chromedriver",
+            config_path: str = "https://raw.githubusercontent.com/hamishgibbs/pull_facebook_data_for_good/master/.config",
+            username: str = None,
+            password: str = None,
+            driver_flags: list = [],
+            driver_prefs: dict = {"download.default_directory": os.getcwd()}):
 
     return(None)
