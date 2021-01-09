@@ -80,6 +80,17 @@ def cli(
 
     """
 
+    pull_fb(dataset_name,
+            area,
+            outdir,
+            end_date,
+            frequency,
+            driver_path,
+            config_path,
+            username,
+            password,
+            driver_flags,
+            driver_prefs)
 
 
 def pull_fb(dataset_name,
@@ -134,5 +145,3 @@ def pull_fb(dataset_name,
 
     # Success message
     print('Success.')
-
-    return(None)
