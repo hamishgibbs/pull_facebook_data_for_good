@@ -78,8 +78,6 @@ def cli(
     """
     Entry point for the pull_fb cli.
 
-    Add args to manually pass start date, end date, id, and frequency
-
     """
 
     print("Reading dataset configuration...")
@@ -111,3 +109,18 @@ def cli(
 
     # Success message
     print('Success.')
+
+
+def pull_fb(dataset_name,
+            area,
+            outdir=None,
+            end_date=None,
+            frequency=None,
+            driver_path=None,
+            config_path=None,
+            username=None,
+            password=None,
+            driver_flags=None,
+            driver_prefs=None):
+
+    return(None)
