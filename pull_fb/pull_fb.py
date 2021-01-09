@@ -126,6 +126,8 @@ def pull_fb(dataset_name,
     # Only download dates that have not already been downloaded
     download_dates = list(set(data_dates).difference(set(existing_dates)))
 
+    download_dates.sort()
+
     # Get url of each of dataset
     download_urls = url.format_urls(dataset_name,
                                     config["dataset_id"],
