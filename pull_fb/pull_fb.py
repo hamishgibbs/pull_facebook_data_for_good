@@ -24,7 +24,10 @@ import pull_fb.clean_up as clean_up
     default=datetime.now(),
 )
 @click.option(
-    "-f", "--frequency", help="Dataset update frequency (hours). Default: 8.", default=8
+    "-f",
+    "--frequency",
+    help="Dataset update frequency (hours). Default: 8.",
+    default=8
 )
 @click.option(
     "-driver",
@@ -64,27 +67,53 @@ import pull_fb.clean_up as clean_up
     default={"download.default_directory": os.getcwd()}
 )
 def cli(
-    dataset_name,
-    area,
-    outdir=None,
-    end_date=None,
-    frequency=None,
-    driver_path=None,
-    config_path=None,
-    username=None,
-    password=None,
-    driver_flags=None,
-    driver_prefs=None):
+        dataset_name,
+        area,
+        outdir=None,
+        end_date=None,
+        frequency=None,
+        driver_path=None,
+        config_path=None,
+        username=None,
+        password=None,
+        driver_flags=None,
+        driver_prefs=None):
     """
     Entry point for the pull_fb cli.
 
-    Add args to manually pass start date, end date, id, and frequency
-
     """
+
+    pull_fb(dataset_name,
+            area,
+            outdir,
+            end_date,
+            frequency,
+            driver_path,
+            config_path,
+            username,
+            password,
+            driver_flags,
+            driver_prefs)
+
+
+def pull_fb(dataset_name,
+            area,
+            outdir: str = os.getcwd(),
+            end_date: datetime = datetime.now(),
+            frequency: int = 8,
+            driver_path: str = "/Applications/chromedriver",
+            config_path: str = "https://raw.githubusercontent.com/hamishgibbs/pull_facebook_data_for_good/master/.config",
+            username: str = None,
+            password: str = None,
+            driver_flags: list = [],
+            driver_prefs: dict = {"download.default_directory": os.getcwd()}):
 
     print("Reading dataset configuration...")
     # Get config variables from repository
-    config = utils.get_download_variables(dataset_name, area, end_date, config_path)
+    config = utils.get_download_variables(dataset_name,
+                                          area,
+                                          end_date,
+                                          config_path)
 
     # Get date sequence between start and end dates
     data_dates = utils.get_file_dates(
@@ -98,13 +127,21 @@ def cli(
     download_dates = list(set(data_dates).difference(set(existing_dates)))
 
     # Get url of each of dataset
-    download_urls = url.format_urls(dataset_name, config["dataset_id"], download_dates)
+    download_urls = url.format_urls(dataset_name,
+                                    config["dataset_id"],
+                                    download_dates)
 
     # Get credentials here
     keys = credentials.get_credentials(username, password)
 
     # Download url sequence and move to output directory
-    driver.download_data(download_urls, area, driver_path, keys, outdir, driver_flags, driver_prefs)
+    driver.download_data(download_urls,
+                         area,
+                         driver_path,
+                         keys,
+                         outdir,
+                         driver_flags,
+                         driver_prefs)
 
     # Remove files with no rows (bug with web portal)
     clean_up.remove_empty_files(outdir)
