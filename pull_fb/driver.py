@@ -6,6 +6,15 @@ from datetime import datetime
 from selenium import webdriver
 from progress.bar import Bar
 
+def authenticate_driver(keys: dict,
+                        driver_flags: list,
+                        driver_prefs: dict):
+
+    request_cookies_browser = None
+
+    return(request_cookies_browser)
+
+
 
 def download_data(
     download_urls: list,
