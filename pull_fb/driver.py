@@ -6,11 +6,58 @@ from datetime import datetime
 from selenium import webdriver
 from progress.bar import Bar
 
+
 def authenticate_driver(keys: dict,
+                        driver_path: str,
                         driver_flags: list,
                         driver_prefs: dict):
 
-    request_cookies_browser = None
+    # Define options for web driver
+    chrome_options = webdriver.ChromeOptions()
+
+    # Apply preferences to chrome driver
+    chrome_options.add_experimental_option("prefs", driver_prefs)
+
+    # Add individual flags to chromedriver prefs
+    for flag in driver_flags:
+
+        chrome_options.add_argument(flag)
+
+    driver = webdriver.Chrome(
+        executable_path=driver_path, chrome_options=chrome_options
+    )
+
+    # Login url for Geoinsights platform
+    geoinsights_url = "https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2Fgeoinsights-portal%2F"
+
+    # Access login url with webdriver
+    driver.get(geoinsights_url)
+
+    # Pause for page load (and cookie acceptance)
+    time.sleep(1)
+
+    # Try to accept cookies. On failure, pass
+    try:
+
+        driver.find_element_by_xpath('//*[@id="u_0_h"]').click()
+
+    except Exception:
+
+        raise Exception('Unable to accept browser cookies. Please try again.')
+
+    # Add username in username form field
+    driver.find_element_by_xpath('//*[@id="email"]').send_keys(keys["email"])
+
+    # Add password in password form field
+    driver.find_element_by_xpath('//*[@id="pass"]').send_keys(keys["password"])
+
+    # Click login button
+    driver.find_element_by_xpath('//*[@id="loginbutton"]').click()
+
+    time.sleep(1)
+
+    # Get cookies from authenticated web driver
+    request_cookies_browser = driver.get_cookies()
 
     return(request_cookies_browser)
 
