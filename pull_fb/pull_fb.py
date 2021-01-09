@@ -24,7 +24,10 @@ import pull_fb.clean_up as clean_up
     default=datetime.now(),
 )
 @click.option(
-    "-f", "--frequency", help="Dataset update frequency (hours). Default: 8.", default=8
+    "-f",
+    "--frequency",
+    help="Dataset update frequency (hours). Default: 8.",
+    default=8
 )
 @click.option(
     "-driver",
@@ -64,17 +67,17 @@ import pull_fb.clean_up as clean_up
     default={"download.default_directory": os.getcwd()}
 )
 def cli(
-    dataset_name,
-    area,
-    outdir=None,
-    end_date=None,
-    frequency=None,
-    driver_path=None,
-    config_path=None,
-    username=None,
-    password=None,
-    driver_flags=None,
-    driver_prefs=None):
+        dataset_name,
+        area,
+        outdir=None,
+        end_date=None,
+        frequency=None,
+        driver_path=None,
+        config_path=None,
+        username=None,
+        password=None,
+        driver_flags=None,
+        driver_prefs=None):
     """
     Entry point for the pull_fb cli.
 
