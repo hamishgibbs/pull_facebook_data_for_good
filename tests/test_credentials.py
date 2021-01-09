@@ -1,4 +1,3 @@
-import pytest
 from pull_fb import credentials
 
 
