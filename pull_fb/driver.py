@@ -112,8 +112,8 @@ def wait_for_download(download_start: float, outdir: str):
         # Check for files created after the download_start
         new_files = sum([x > download_start for x in ctimes])
 
-        # Wait 0.5 seconds and retry
-        time.sleep(0.5)
+        # Wait 1 second and retry
+        time.sleep(1)
 
     # Latest downloaded file has the maximum creation time in the outdir
     latest_file = max(downloaded_files, key=os.path.getctime)
