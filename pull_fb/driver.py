@@ -41,7 +41,7 @@ def authenticate_driver(keys: dict,
 
     except Exception:
 
-        raise Exception('Unable to accept browser cookies. Please try again.')
+        pass
 
     # Add username in username form field
     driver.find_element_by_xpath('//*[@id="email"]').send_keys(keys["email"])
