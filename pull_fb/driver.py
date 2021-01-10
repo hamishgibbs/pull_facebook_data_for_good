@@ -3,6 +3,8 @@ import requests
 from datetime import datetime
 from selenium import webdriver
 from progress.bar import Bar
+from io import StringIO
+import pandas as pd
 
 
 def authenticate_driver(keys: dict,
@@ -62,29 +64,30 @@ def authenticate_driver(keys: dict,
     return(request_cookies_browser)
 
 
-def download_data(
-    download_urls: list,
-    area: str,
-    driver_path: str,
-    keys: dict,
-    outdir: str,
-    driver_flags: list,
-    driver_prefs: dict
-):
+def authenticate_session(request_cookies_browser: list):
 
-    request_cookies_browser = authenticate_driver(keys,
-                                                  driver_path,
-                                                  driver_flags,
-                                                  driver_prefs)
-
+    # Create a nes requests session
     s = requests.Session()
 
     # Pass the cookies from the authenticated webdriver to the session
     [s.cookies.set(c['name'], c['value']) for c in request_cookies_browser]
 
+    return s
+
+
+def download_data(download_urls: list,
+                  area: str,
+                  outdir: str,
+                  request_cookies_browser: list):
+
+    s = authenticate_session(request_cookies_browser)
+
     # Start download bar
     print("\n")
     bar = Bar("Downloading", max=len(download_urls))
+
+    # Store unsuccessful download file names
+    download_failed = []
 
     # For each download url, download dataset
     for i, url in enumerate(download_urls):
@@ -95,17 +98,53 @@ def download_data(
         # Define output file name
         out_fn = format_out_fn(outdir, area, url["date"])
 
-        # If request is successful, write file to csv
-        if resp.status_code == 200:
-
-            with open(out_fn, 'w') as f:
-                f.write(resp.text)
+        download_failed = write_outfile(resp, out_fn, download_failed)
 
         # Update progress bar
         bar.next()
 
     # Close progress bar
     bar.finish()
+
+    print('Failed to download {} files. Please try again later.'.format(len(download_failed)))
+
+
+def write_outfile(resp: requests.Response, out_fn: str, download_failed: list):
+
+    if resp.status_code == 200:
+
+        try:
+
+            # try to convert response data to csv with >1 row
+            data = response_as_dataframe(resp.text)
+
+            # Write response data as csv
+            data.to_csv(out_fn)
+
+        except Exception:
+
+            # Append failed filename download
+            download_failed.append(out_fn)
+
+            pass
+
+    return download_failed
+
+def response_as_dataframe(text: str):
+
+    data = StringIO(text)
+
+    df = pd.read_csv(data)
+
+    try:
+
+        assert len(df.index) > 1
+
+    except Exception as e:
+
+        raise e
+
+    return(df)
 
 
 def format_out_fn(outdir: str, area: str, date: datetime):
