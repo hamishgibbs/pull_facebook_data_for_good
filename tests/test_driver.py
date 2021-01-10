@@ -1,7 +1,7 @@
 import pytest
 from datetime import datetime
 from pull_fb import driver
-from selenium import webdriver
+import requests
 import pandas as pd
 
 
@@ -37,3 +37,12 @@ def test_response_as_dataframe_fails_html():
     with pytest.raises(AssertionError):
 
         driver.response_as_dataframe('<div>Other stuff</div>')
+
+
+def test_authenticate_session_with_cookies():
+
+    request_cookies_browser = [{'name':'item', 'value':'item'}]
+
+    res = driver.authenticate_session(request_cookies_browser)
+
+    assert type(res) is requests.Session

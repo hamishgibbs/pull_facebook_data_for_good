@@ -64,6 +64,17 @@ def authenticate_driver(keys: dict,
     return(request_cookies_browser)
 
 
+def authenticate_session(request_cookies_browser: list):
+
+    # Create a nes requests session
+    s = requests.Session()
+
+    # Pass the cookies from the authenticated webdriver to the session
+    [s.cookies.set(c['name'], c['value']) for c in request_cookies_browser]
+
+    return s
+
+
 def download_data(
     download_urls: list,
     area: str,
@@ -79,10 +90,7 @@ def download_data(
                                                   driver_flags,
                                                   driver_prefs)
 
-    s = requests.Session()
-
-    # Pass the cookies from the authenticated webdriver to the session
-    [s.cookies.set(c['name'], c['value']) for c in request_cookies_browser]
+    s = authenticate_session(request_cookies_browser)
 
     # Start download bar
     print("\n")
