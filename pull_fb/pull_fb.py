@@ -66,12 +66,6 @@ import pull_fb.clean_up as clean_up
     help="Preferences passed to chromedriver.",
     default={"download.default_directory": os.getcwd()}
 )
-@click.option(
-    "-clean",
-    "--clean",
-    help="Whether to find and remove empty csv files.",
-    default=False
-)
 def cli(
         dataset_name,
         area,
@@ -83,8 +77,7 @@ def cli(
         username=None,
         password=None,
         driver_flags=None,
-        driver_prefs=None,
-        clean=None):
+        driver_prefs=None):
     """
     Entry point for the pull_fb cli.
 
@@ -100,8 +93,7 @@ def cli(
             username,
             password,
             driver_flags,
-            driver_prefs,
-            clean)
+            driver_prefs)
 
 
 def pull_fb(dataset_name,
@@ -114,8 +106,7 @@ def pull_fb(dataset_name,
             username: str = None,
             password: str = None,
             driver_flags: list = [],
-            driver_prefs: dict = {"download.default_directory": os.getcwd()},
-            clean: bool = False):
+            driver_prefs: dict = {"download.default_directory": os.getcwd()}):
 
     print("Reading dataset configuration...")
     # Get config variables from repository
@@ -156,11 +147,6 @@ def pull_fb(dataset_name,
                          area,
                          outdir,
                          request_cookies_browser)
-
-    # Remove files with no rows (bug with web portal)
-    if clean:
-
-        clean_up.remove_empty_files(outdir)
 
     # Success message
     print('Success.')
