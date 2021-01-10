@@ -75,20 +75,10 @@ def authenticate_session(request_cookies_browser: list):
     return s
 
 
-def download_data(
-    download_urls: list,
-    area: str,
-    driver_path: str,
-    keys: dict,
-    outdir: str,
-    driver_flags: list,
-    driver_prefs: dict
-):
-
-    request_cookies_browser = authenticate_driver(keys,
-                                                  driver_path,
-                                                  driver_flags,
-                                                  driver_prefs)
+def download_data(download_urls: list,
+                  area: str,
+                  outdir: str,
+                  request_cookies_browser: list):
 
     s = authenticate_session(request_cookies_browser)
 
@@ -108,22 +98,7 @@ def download_data(
         # Define output file name
         out_fn = format_out_fn(outdir, area, url["date"])
 
-        if resp.status_code == 200:
-
-            try:
-
-                # try to convert response data to csv with >1 row
-                data = response_as_dataframe(resp.text)
-
-                # Write response data as csv
-                data.to_csv(out_fn)
-
-            except Exception:
-
-                # Append failed filename download
-                download_failed.append(out_fn)
-
-                pass
+        download_failed = write_outfile(resp, out_fn, download_failed)
 
         # Update progress bar
         bar.next()
@@ -133,6 +108,27 @@ def download_data(
 
     print('Failed to download {} files. Please try again later.'.format(len(download_failed)))
 
+
+def write_outfile(resp: requests.Response, out_fn: str, download_failed: list):
+
+    if resp.status_code == 200:
+
+        try:
+
+            # try to convert response data to csv with >1 row
+            data = response_as_dataframe(resp.text)
+
+            # Write response data as csv
+            data.to_csv(out_fn)
+
+        except Exception:
+
+            # Append failed filename download
+            download_failed.append(out_fn)
+
+            pass
+
+    return download_failed
 
 def response_as_dataframe(text: str):
 

@@ -11,6 +11,19 @@ def sample_csv_response():
     return 'a,b\n1,2\n3,4'
 
 
+@pytest.fixture()
+def mock_csv_response():
+
+    class Mock_Response():
+
+        def __init__(self):
+
+            self.status_code = 200
+            self.text = 'a,b\n1,2\n3,4'
+
+    return Mock_Response()
+
+
 def test_format_out_fn():
 
     res = driver.format_out_fn('a', 'b', datetime(2000, 1, 1, 0))
@@ -41,8 +54,15 @@ def test_response_as_dataframe_fails_html():
 
 def test_authenticate_session_with_cookies():
 
-    request_cookies_browser = [{'name':'item', 'value':'item'}]
+    request_cookies_browser = [{'name': 'item', 'value': 'item'}]
 
     res = driver.authenticate_session(request_cookies_browser)
 
     assert type(res) is requests.Session
+
+
+def test_write_outfile(mock_csv_response):
+
+    res = driver.write_outfile(mock_csv_response, 'test.csv', [])
+
+    assert type(res) is list

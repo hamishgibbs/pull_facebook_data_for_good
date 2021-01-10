@@ -145,14 +145,17 @@ def pull_fb(dataset_name,
     # Get credentials here
     keys = credentials.get_credentials(username, password)
 
+    # Authenticate webdriver
+    request_cookies_browser = driver.authenticate_driver(keys,
+                                                         driver_path,
+                                                         driver_flags,
+                                                         driver_prefs)
+
     # Download url sequence and move to output directory
     driver.download_data(download_urls,
                          area,
-                         driver_path,
-                         keys,
                          outdir,
-                         driver_flags,
-                         driver_prefs)
+                         request_cookies_browser)
 
     # Remove files with no rows (bug with web portal)
     if clean:
