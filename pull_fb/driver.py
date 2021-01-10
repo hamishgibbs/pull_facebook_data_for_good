@@ -32,7 +32,7 @@ def authenticate_driver(keys: dict,
     driver.get(geoinsights_url)
 
     # Pause for page load (and cookie acceptance)
-    time.sleep(1)
+    time.sleep(5)
 
     # Try to accept cookies. On failure, pass
     try:
