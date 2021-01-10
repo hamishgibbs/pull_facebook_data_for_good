@@ -22,6 +22,7 @@ jobs:
         pip install requests
         pip install selenium
         pip install progress
+        pip install pandas
         pytest --cov=./ --cov-report=xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
