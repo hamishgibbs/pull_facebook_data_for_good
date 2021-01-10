@@ -1,3 +1,4 @@
+import os
 import pytest
 from datetime import datetime
 from pull_fb import driver
@@ -66,3 +67,5 @@ def test_write_outfile(mock_csv_response):
     res = driver.write_outfile(mock_csv_response, 'test.csv', [])
 
     assert type(res) is list
+
+    os.remove('test.csv')
