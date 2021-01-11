@@ -116,9 +116,25 @@ Dataset update frequency in hours (default: `8`).
 
 Path to ChromeDriver (see download options [here](https://chromedriver.chromium.org/)).
 
-*--config* (*-config*)
+*--config_path* (*-config*)
 
 Path to `.config` file (default: [config](https://raw.githubusercontent.com/hamishgibbs/pull_facebook_data_for_good/master/.config) in remote repo. Also accepts local paths).
+
+*--username* (*-user*)
+
+Facebook username (or registered email address). To run without prompting for login credentials.
+
+*--password* (*-pass*)
+
+Facebook password. To run without prompting for login credentials.
+
+*--driver_flags* (*-driver_flags*)
+
+Flags passed to chromedriver (allows multiple flags). Flags are passed with `selenium.webdriver.ChromeOptions.add_argument`.
+
+*--driver_prefs* (*-driver_prefs*)
+
+Preferences passed to chromedriver as dict. Preferences are passed with `selenium.webdriver.ChromeOptions.add_experimental_option`.
 
 ### Tests
 
