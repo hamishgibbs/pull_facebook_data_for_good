@@ -25,6 +25,14 @@ def mock_csv_response():
     return Mock_Response()
 
 
+@pytest.fixture(scope="session")
+def tmp_path(tmpdir_factory):
+
+    path = tmpdir_factory.mktemp("tmp")
+
+    return path
+
+
 def test_format_out_fn():
 
     res = driver.format_out_fn('a', 'b', datetime(2000, 1, 1, 0))
@@ -69,3 +77,17 @@ def test_write_outfile(mock_csv_response):
     assert type(res) is list
 
     os.remove('test.csv')
+
+
+# test download_data
+def test_download_data_tmp_dir(tmp_path):
+
+    download_urls = [{"url": "https://github.com/hamishgibbs/uk_tier_data/raw/master/output/uk_tier_data_parliament_2020_10_25_1606.csv",
+                     "date": datetime(2020, 3, 1, 0)}]
+
+    driver.download_data(download_urls,
+                         "Britain",
+                         str(tmp_path),
+                         [])
+
+    assert os.path.exists(str(tmp_path) + '/Britain_2020_03_01_0000.csv')
