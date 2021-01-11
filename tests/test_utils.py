@@ -60,6 +60,18 @@ def local_config_file_malformed(tmpdir_factory):
     return fn
 
 
+@pytest.fixture(scope="session")
+def output_csv(tmpdir_factory):
+
+    fn = tmpdir_factory.mktemp("tmp").join("Britain_2020_06_05_1600.csv")
+
+    with open(fn, 'w') as f:
+
+        f.write('test')
+
+    return fn
+
+
 # Test date_str_to_datetime
 def test_date_str_to_datetime_hours():
 
@@ -177,3 +189,13 @@ def test_get_download_variables_missing_origin(local_config_file_missing_origin)
                                      'Britain',
                                      datetime.now(),
                                      str(local_config_file_missing_origin))
+
+
+# test get_existing_dates
+def test_get_existing_dates(output_csv):
+
+    outdir = '/'.join(str(output_csv).split('/')[:-1])
+
+    res = utils.get_existing_dates(outdir, 'Britain')
+
+    assert type(res) is list
