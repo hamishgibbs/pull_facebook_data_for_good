@@ -110,7 +110,9 @@ def download_data(download_urls: list,
     # Close progress bar
     bar.finish()
 
-    print('Failed to download {} files. Please try again later.'.format(len(download_failed)))
+    if len(download_failed) > 0:
+
+        print('Failed to download {} files. Please try again later.'.format(len(download_failed)))
 
 
 def write_outfile(resp: requests.Response, out_fn: str, download_failed: list):
