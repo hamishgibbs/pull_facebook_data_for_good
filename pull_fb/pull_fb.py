@@ -58,7 +58,7 @@ import pull_fb.clean_up as clean_up
     "--driver_flags",
     help="Flags passed to chromedriver.",
     multiple=True,
-    default=[]
+    default=["--headless"]
 )
 @click.option(
     "-driver_prefs",
@@ -105,7 +105,7 @@ def pull_fb(dataset_name,
             config_path: str = "https://raw.githubusercontent.com/hamishgibbs/pull_facebook_data_for_good/master/.config",
             username: str = None,
             password: str = None,
-            driver_flags: list = [],
+            driver_flags: list = ["--headless"],
             driver_prefs: dict = {"download.default_directory": os.getcwd()}):
 
     print("Reading dataset configuration...")
