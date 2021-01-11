@@ -12,6 +12,8 @@ def authenticate_driver(keys: dict,
                         driver_flags: list,
                         driver_prefs: dict):
 
+    print('Authenticating webdriver...')
+
     # Define options for web driver
     chrome_options = webdriver.ChromeOptions()
 
@@ -60,6 +62,8 @@ def authenticate_driver(keys: dict,
     request_cookies_browser = driver.get_cookies()
 
     driver.quit()
+
+    print('Successfully authenticated webdriver.')
 
     return(request_cookies_browser)
 
