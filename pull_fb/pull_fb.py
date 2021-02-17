@@ -148,4 +148,4 @@ def pull_fb(dataset_name,
                          request_cookies_browser)
 
     # Success message
-    print('Success.')
+    print('Done.')

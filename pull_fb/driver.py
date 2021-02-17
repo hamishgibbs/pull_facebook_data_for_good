@@ -41,7 +41,7 @@ def authenticate_driver(keys: dict,
     # Try to accept cookies. On failure, pass
     try:
 
-        driver.find_element_by_xpath('//*[@id="u_0_h"]').click()
+        driver.find_element_by_xpath('//button[@data-cookiebanner="accept_button"]').click()
 
     except Exception:
 
@@ -104,6 +104,8 @@ def download_data(download_urls: list,
 
         download_failed = write_outfile(resp, out_fn, download_failed)
 
+        time.sleep(1)
+
         # Update progress bar
         bar.next()
 
@@ -135,6 +137,7 @@ def write_outfile(resp: requests.Response, out_fn: str, download_failed: list):
             pass
 
     return download_failed
+
 
 def response_as_dataframe(text: str):
 
