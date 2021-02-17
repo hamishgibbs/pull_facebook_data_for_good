@@ -138,6 +138,7 @@ def write_outfile(resp: requests.Response, out_fn: str, download_failed: list):
 
     return download_failed
 
+
 def response_as_dataframe(text: str):
 
     data = StringIO(text)
