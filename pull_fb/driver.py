@@ -41,7 +41,7 @@ def authenticate_driver(keys: dict,
     # Try to accept cookies. On failure, pass
     try:
 
-        driver.find_element_by_xpath('//*[@id="u_0_j_Ip"]').click()
+        driver.find_element_by_xpath('//button[@data-cookiebanner="accept_button"]').click()
 
     except Exception:
 
