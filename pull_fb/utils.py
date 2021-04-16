@@ -25,7 +25,7 @@ def get_config(config_path):
 
     # Extract config variables to dictionary or raise Exception
     try:
-        config = dict(x.split("=") for x in config_var)
+        config = dict(x.split("-") for x in config_var)
 
     except Exception:
 
@@ -74,11 +74,21 @@ def get_download_variables(dataset: str, country: str, end_date: str, config_pat
     # Convert datset origin string to datetime object
     dataset_origin = date_str_to_datetime(dataset_origin)
 
+    # Extract extra element which appears in URL of certain datasets but not all
+    try:
+
+        dataset_extra = config["_".join([country, dataset, "Extra"])]
+
+    except KeyError:
+
+        dataset_extra = None
+
     # Return config variables as dict
     return {
         "dataset_id": dataset_id,
         "start_date": dataset_origin,
         "end_date": end_date,
+        "dataset_extra": dataset_extra
     }
 
 

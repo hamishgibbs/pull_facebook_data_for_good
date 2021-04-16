@@ -130,7 +130,9 @@ def pull_fb(dataset_name,
     # Get url of each of dataset
     download_urls = url.format_urls(dataset_name,
                                     config["dataset_id"],
-                                    download_dates)
+                                    download_dates,
+                                    config["dataset_extra"])
+
 
     # Get credentials here
     keys = credentials.get_credentials(username, password)
