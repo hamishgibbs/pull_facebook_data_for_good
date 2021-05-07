@@ -6,15 +6,9 @@ from datetime import datetime
 import re
 
 
-def get_outfn(r, dataset_id):
+def get_outfn(dataset_id, cwd=os.getcwd()):
 
-    try:
-
-        out_fn = os.getcwd() + "/" + dataset_id + ".csv.zip"
-
-    except Exception:
-
-        raise Exception("Unable to extract data.")
+    out_fn = cwd + "/" + dataset_id + ".csv.zip"
 
     return out_fn
 
@@ -23,7 +17,7 @@ def write_zipfile(out_fn, r):
 
     try:
 
-        print(u"\U0001f4e5" + f" Writing data...")
+        print(u"\U0001f4e5" + " Writing data...")
 
         with open(out_fn, 'wb') as fd:
             for chunk in r.iter_content(chunk_size=128):
@@ -114,7 +108,7 @@ def download_data(dataset_id, start_date, end_date, cookies):
 
     r = request_data(dataset_id, start_date, end_date, cookies)
 
-    out_fn = get_outfn(r, dataset_id)
+    out_fn = get_outfn(dataset_id)
 
     write_zipfile(out_fn, r)
 
