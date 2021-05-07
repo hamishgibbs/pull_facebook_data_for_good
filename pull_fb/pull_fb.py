@@ -1,98 +1,94 @@
 import click
 import os
 from datetime import datetime
+import browser_cookie3
+import webbrowser
+import zipfile
+import requests
 import pull_fb.utils as utils
 import pull_fb.url as url
 import pull_fb.driver as driver
 import pull_fb.credentials as credentials
 
 
-@click.command()
-@click.option("-d", "--dataset_name", help="Dataset name to be downloaded.")
-@click.option("-a", "--area", help="Area to be downloaded.")
-@click.option(
-    "-o",
-    "--outdir",
-    help="Outfile directory. Default: current directory.",
-    default=os.getcwd(),
-)
-@click.option(
-    "-e",
-    "--end_date",
-    help="Dataset end date. Default: datetime.now().",
-    default=datetime.now(),
-)
-@click.option(
-    "-f",
-    "--frequency",
-    help="Dataset update frequency (hours). Default: 8.",
-    default=8
-)
-@click.option(
-    "-driver",
-    "--driver_path",
-    help="Path to webdriver.",
-    default="/Applications/chromedriver",
-)
-@click.option(
-    "-config",
-    "--config_path",
-    help=".config path. Default is requested from the repo, otherwise is read from provided local path or other http connection.",
-    default="https://raw.githubusercontent.com/hamishgibbs/pull_facebook_data_for_good/master/.config",
-)
-@click.option(
-    "-user",
-    "--username",
-    help="Facebook username.",
-    default=None
-)
-@click.option(
-    "-pass",
-    "--password",
-    help="Facebook password.",
-    default=None
-)
-@click.option(
-    "-driver_flags",
-    "--driver_flags",
-    help="Flags passed to chromedriver.",
-    multiple=True,
-    default=["--headless"]
-)
-@click.option(
-    "-driver_prefs",
-    "--driver_prefs",
-    help="Preferences passed to chromedriver.",
-    default={"download.default_directory": os.getcwd()}
-)
-def cli(
-        dataset_name,
-        area,
-        outdir=None,
-        end_date=None,
-        frequency=None,
-        driver_path=None,
-        config_path=None,
-        username=None,
-        password=None,
-        driver_flags=None,
-        driver_prefs=None):
-    """
-    Entry point for the pull_fb cli.
+def get_auth_cookies():
 
-    """
+    return browser_cookie3.load(domain_name = ".facebook.com")
 
-    pull_fb(dataset_name,
-            area,
-            outdir,
-            end_date,
-            frequency,
-            driver_path,
-            config_path,
-            username,
-            password,
-            driver_flags,
-            driver_prefs)
+
+@click.group()
+def cli():
+    pass
+
+
+@click.group()
+def auth():
+    pass
+
+
+@auth.command('status')
+def auth_status():
+    print("Checking auth status")
+
+
+@auth.command('login')
+def auth_login():
+    webbrowser.get("https://partners.facebook.com/data_for_good/")
+
+
+@click.group()
+def collection():
+    pass
+
+
+@collection.command("init")
+def collection_init():
+
+    print("Getting authentication cookies...")
+    cookies = get_auth_cookies()
+
+    # replace this with args
+    dataset_id = input("Dataset ID: ")
+
+    # replace this with args
+    start_date = input("Start date (YYYY-MM-DD): ")
+
+    end_date = input("End date (YYYY-MM-DD): ")
+
+    # replace this with args
+    #end_date = datetime.strftime(datetime.now(), "%Y-%m-%d")
+
+    url = "https://partners.facebook.com/data_for_good/bulk_download/?"
+    query = f"resource_type=downloadable_csv&start_date={start_date}&end_date={end_date}&dataset_id={dataset_id}"
+
+    print(url + query)
+
+    r = requests.get(url + query,
+                     cookies=cookies)
+
+    print(r.request.url)
+    print(r.status_code)
+    print(r.headers)
+
+    out_fn = os.getcwd() + "/" + r.headers["Content-Disposition"].replace(
+        "attachment;filename=",
+        "")
+
+    with open(out_fn, 'wb') as fd:
+        for chunk in r.iter_content(chunk_size=128):
+            fd.write(chunk)
+
+    with zipfile.ZipFile(out_fn, 'r') as zip_ref:
+        zip_ref.extractall(os.getcwd())
+
+    os.remove(out_fn)
+
+@collection.command("update")
+def collection_update():
+
+
+cli.add_command(auth)
+cli.add_command(collection)
 
 
 def pull_fb(dataset_name,
