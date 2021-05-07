@@ -1,6 +1,4 @@
-from pull_fb.collection import (
-    get_outfn
-)
+from pull_fb.collection import get_outfn
 
 
 def test_get_outfn():
