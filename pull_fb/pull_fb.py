@@ -5,6 +5,7 @@ import browser_cookie3
 import webbrowser
 import zipfile
 import requests
+import glob
 import pull_fb.utils as utils
 import pull_fb.url as url
 import pull_fb.driver as driver
@@ -83,8 +84,29 @@ def collection_init():
 
     os.remove(out_fn)
 
+
 @collection.command("update")
 def collection_update():
+
+    # check that all ids are the same
+    # check for duplicate files
+    # ...check for missing files?
+
+    files = glob.glob(os.getcwd() + "/*.csv")
+
+    dataset_ids = [x.split("/")[-1].split("_")[0] for x in files]
+    dates = [x.split("/")[-1].split("_")[1].replace(".csv", "") for x in files]
+    dates = [datetime.strptime(x, "%Y-%m-%d") for x in dates]
+
+    assert len(set(dataset_ids)) == 1
+
+    start_date = datetime.strftime(max(dates), "%Y-%m-%d")
+    end_date = datetime.strftime(datetime.now(), "%Y-%m-%d")
+    dataset_id = dataset_ids[0]
+
+    print(start_date, end_date, dataset_id)
+
+    # get data function here
 
 
 cli.add_command(auth)
