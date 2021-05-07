@@ -5,10 +5,6 @@ import browser_cookie3
 import zipfile
 import requests
 import glob
-import pull_fb.utils as utils
-import pull_fb.url as url
-import pull_fb.driver as driver
-import pull_fb.credentials as credentials
 
 
 def get_auth_cookies():
@@ -51,6 +47,50 @@ def collection():
     pass
 
 
+def request_data(dataset_id, start_date, end_date, cookies):
+
+    url = "https://partners.facebook.com/data_for_good/bulk_download/?"
+    query = f"resource_type=downloadable_csv&start_date={start_date}&end_date={end_date}&dataset_id={dataset_id}"
+
+    r = requests.get(url + query,
+                     cookies=cookies)
+
+    return r
+
+
+def get_outfn(r):
+
+    return os.getcwd() + "/" + r.headers["Content-Disposition"].replace(
+        "attachment;filename=",
+        "")
+
+
+def write_zipfile(out_fn, r):
+
+    with open(out_fn, 'wb') as fd:
+        for chunk in r.iter_content(chunk_size=128):
+            fd.write(chunk)
+
+
+def unzip_data(out_fn):
+
+    with zipfile.ZipFile(out_fn, 'r') as zip_ref:
+        zip_ref.extractall(os.getcwd())
+
+
+def download_data(dataset_id, start_date, end_date, cookies):
+
+    r = request_data(dataset_id, start_date, end_date, cookies)
+
+    out_fn = get_outfn(r)
+
+    write_zipfile(out_fn, r)
+
+    unzip_data(out_fn)
+
+    os.remove(out_fn)
+
+
 @collection.command("init")
 def collection_init():
 
@@ -63,35 +103,39 @@ def collection_init():
     # replace this with args
     start_date = input("Start date (YYYY-MM-DD): ")
 
+    # replace this with args
     end_date = input("End date (YYYY-MM-DD): ")
 
-    # replace this with args
-    #end_date = datetime.strftime(datetime.now(), "%Y-%m-%d")
+    download_data(dataset_id, start_date, end_date, cookies)
 
-    url = "https://partners.facebook.com/data_for_good/bulk_download/?"
-    query = f"resource_type=downloadable_csv&start_date={start_date}&end_date={end_date}&dataset_id={dataset_id}"
 
-    print(url + query)
+def get_file_dataset_ids(files: list):
 
-    r = requests.get(url + query,
-                     cookies=cookies)
+    try:
 
-    print(r.request.url)
-    print(r.status_code)
-    print(r.headers)
+        dataset_ids = [x.split("/")[-1].split("_")[0] for x in files]
 
-    out_fn = os.getcwd() + "/" + r.headers["Content-Disposition"].replace(
-        "attachment;filename=",
-        "")
+    except Exception:
 
-    with open(out_fn, 'wb') as fd:
-        for chunk in r.iter_content(chunk_size=128):
-            fd.write(chunk)
+        raise Exception("Unable to parse dataset ids.")
 
-    with zipfile.ZipFile(out_fn, 'r') as zip_ref:
-        zip_ref.extractall(os.getcwd())
+    return dataset_ids
 
-    os.remove(out_fn)
+
+def get_file_dates(files: list):
+
+    try:
+
+        dates = [x.split("/")[-1].split("_")[1].replace(".csv", "")
+                 for x in files]
+
+        dates = [datetime.strptime(x, "%Y-%m-%d") for x in dates]
+
+    except Exception:
+
+        raise Exception("Unable to parse dates.")
+
+    return dates
 
 
 @collection.command("update")
@@ -101,11 +145,12 @@ def collection_update():
     # check for duplicate files
     # ...check for missing files?
 
+    cookies = get_auth_cookies()
+
     files = glob.glob(os.getcwd() + "/*.csv")
 
-    dataset_ids = [x.split("/")[-1].split("_")[0] for x in files]
-    dates = [x.split("/")[-1].split("_")[1].replace(".csv", "") for x in files]
-    dates = [datetime.strptime(x, "%Y-%m-%d") for x in dates]
+    dataset_ids = get_file_dataset_ids(files)
+    dates = get_file_dates(files)
 
     assert len(set(dataset_ids)) == 1
 
@@ -114,6 +159,8 @@ def collection_update():
     dataset_id = dataset_ids[0]
 
     print(start_date, end_date, dataset_id)
+
+    download_data(dataset_id, start_date, end_date, cookies)
 
     # get data function here
 
