@@ -23,6 +23,8 @@ def write_zipfile(out_fn, r):
 
     try:
 
+        print(u"\U0001f4e5" + f" Writing data...")
+
         with open(out_fn, 'wb') as fd:
             for chunk in r.iter_content(chunk_size=128):
                 fd.write(chunk)
@@ -33,6 +35,8 @@ def write_zipfile(out_fn, r):
 
 
 def unzip_data(out_fn):
+
+    print(u"\U0001f4a5" + " Extracting data...")
 
     try:
 
@@ -75,6 +79,8 @@ def get_file_dates(files: list):
 
 def set_file_dataset_ids(files, dataset_id):
 
+    print(u"\U0001f4c4" + " Renaming files...")
+
     for file in files:
 
         new_fn = re.sub(
@@ -92,7 +98,7 @@ def request_data(dataset_id, start_date, end_date, cookies):
         url = "https://partners.facebook.com/data_for_good/bulk_download/?"
         query = f"resource_type=downloadable_csv&start_date={start_date}&end_date={end_date}&dataset_id={dataset_id}"
 
-        print(f"Trying {url + query}...")
+        print(u"\U0001f30e" + f" Trying {url + query}...")
 
         r = requests.get(url + query,
                          cookies=cookies)
@@ -120,7 +126,7 @@ def download_data(dataset_id, start_date, end_date, cookies):
 
     set_file_dataset_ids(files, dataset_id)
 
-    print(f"Downloaded {len(files)} files.")
+    print(u"\U0001f389" + f" Done! Collection size: {len(files)} files.")
 
 
 def get_update_config():
@@ -135,7 +141,7 @@ def get_update_config():
     dataset_id = dataset_ids[0]
 
     return {
-        start_date,
-        end_date,
-        dataset_id
+        "start_date": start_date,
+        "end_date": end_date,
+        "dataset_id": dataset_id
     }

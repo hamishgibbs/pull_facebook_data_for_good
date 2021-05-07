@@ -30,7 +30,6 @@ def collection():
 @auth.command('status')
 def auth_status():
 
-    print("Checking authentication status...")
     cookies = get_auth_cookies()
 
     check_auth(cookies)
@@ -44,7 +43,6 @@ def collection_init(dataset_id,
                     start_date,
                     end_date=datetime.strftime(datetime.now(), "%Y-%m-%d")):
 
-    print("Getting authentication cookies...")
     cookies = get_auth_cookies()
 
     download_data(
@@ -58,7 +56,6 @@ def collection_init(dataset_id,
 @collection.command("update")
 def collection_update():
 
-    print("Getting authentication cookies...")
     cookies = get_auth_cookies()
 
     config = get_update_config()
