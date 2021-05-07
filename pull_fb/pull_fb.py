@@ -2,7 +2,6 @@ import click
 import os
 from datetime import datetime
 import browser_cookie3
-import webbrowser
 import zipfile
 import requests
 import glob
@@ -29,12 +28,22 @@ def auth():
 
 @auth.command('status')
 def auth_status():
-    print("Checking auth status")
 
+    print("Checking auth status...")
 
-@auth.command('login')
-def auth_login():
-    webbrowser.get("https://partners.facebook.com/data_for_good/")
+    cookies = get_auth_cookies()
+
+    login_url = "https://partners.facebook.com/data_for_good/"
+
+    r = requests.get(login_url, cookies=cookies)
+
+    if 'x-fb-rlafr' in r.headers.keys():
+
+        print("Authenticated.")
+
+    else:
+
+        print(f"Not authenticated. You must log in to {login_url} on your default browser.")
 
 
 @click.group()
