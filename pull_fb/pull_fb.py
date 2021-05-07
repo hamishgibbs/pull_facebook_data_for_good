@@ -5,6 +5,7 @@ import browser_cookie3
 import zipfile
 import requests
 import glob
+import re
 
 
 def get_auth_cookies():
@@ -49,40 +50,68 @@ def collection():
 
 def request_data(dataset_id, start_date, end_date, cookies):
 
-    url = "https://partners.facebook.com/data_for_good/bulk_download/?"
-    query = f"resource_type=downloadable_csv&start_date={start_date}&end_date={end_date}&dataset_id={dataset_id}"
+    try:
 
-    r = requests.get(url + query,
-                     cookies=cookies)
+        url = "https://partners.facebook.com/data_for_good/bulk_download/?"
+        query = f"resource_type=downloadable_csv&start_date={start_date}&end_date={end_date}&dataset_id={dataset_id}"
+
+        print(url + query)
+
+        r = requests.get(url + query,
+                         cookies=cookies)
+
+    except Exception:
+
+        raise Exception("Unable to request data.")
 
     return r
 
 
-def get_outfn(r):
+def get_outfn(r, dataset_id):
 
-    return os.getcwd() + "/" + r.headers["Content-Disposition"].replace(
-        "attachment;filename=",
-        "")
+    try:
+
+        print(r.headers)
+
+        out_fn = os.getcwd() + "/" + dataset_id + ".csv.zip"
+
+    except Exception:
+
+        raise Exception("Unable to extract data.")
+
+    return out_fn
 
 
 def write_zipfile(out_fn, r):
 
-    with open(out_fn, 'wb') as fd:
-        for chunk in r.iter_content(chunk_size=128):
-            fd.write(chunk)
+    try:
+
+        with open(out_fn, 'wb') as fd:
+            for chunk in r.iter_content(chunk_size=128):
+                fd.write(chunk)
+
+    except Exception:
+
+        raise Exception("Failed to write output zipfile.")
 
 
 def unzip_data(out_fn):
 
-    with zipfile.ZipFile(out_fn, 'r') as zip_ref:
-        zip_ref.extractall(os.getcwd())
+    try:
+
+        with zipfile.ZipFile(out_fn, 'r') as zip_ref:
+            zip_ref.extractall(os.getcwd())
+
+    except Exception:
+
+        raise Exception("Failed to extract files.")
 
 
 def download_data(dataset_id, start_date, end_date, cookies):
 
     r = request_data(dataset_id, start_date, end_date, cookies)
 
-    out_fn = get_outfn(r)
+    out_fn = get_outfn(r, dataset_id)
 
     write_zipfile(out_fn, r)
 
@@ -90,21 +119,23 @@ def download_data(dataset_id, start_date, end_date, cookies):
 
     os.remove(out_fn)
 
+    # need to adjust file names to be dataset id
+
+    files = glob.glob(os.getcwd() + "/*.csv")
+
+    set_file_dataset_ids(files, dataset_id)
+
 
 @collection.command("init")
-def collection_init():
+@click.option('--dataset_id', required=True)
+@click.option('--start_date', required=True)
+@click.option('--end_date')
+def collection_init(dataset_id,
+                    start_date,
+                    end_date=datetime.strftime(datetime.now(), "%Y-%m-%d")):
 
     print("Getting authentication cookies...")
     cookies = get_auth_cookies()
-
-    # replace this with args
-    dataset_id = input("Dataset ID: ")
-
-    # replace this with args
-    start_date = input("Start date (YYYY-MM-DD): ")
-
-    # replace this with args
-    end_date = input("End date (YYYY-MM-DD): ")
 
     download_data(dataset_id, start_date, end_date, cookies)
 
@@ -137,6 +168,16 @@ def get_file_dates(files: list):
 
     return dates
 
+def set_file_dataset_ids(files, dataset_id):
+
+    for file in files:
+
+        new_fn = re.sub(
+            r"\d{15}(_\d{4}-\d{2}-\d{2}_\d{4}.csv)",
+            rf"{dataset_id}\1",
+            file)
+
+        os.rename(file, new_fn)
 
 @collection.command("update")
 def collection_update():
@@ -145,6 +186,7 @@ def collection_update():
     # check for duplicate files
     # ...check for missing files?
 
+    print("Getting authentication cookies...")
     cookies = get_auth_cookies()
 
     files = glob.glob(os.getcwd() + "/*.csv")
@@ -158,11 +200,7 @@ def collection_update():
     end_date = datetime.strftime(datetime.now(), "%Y-%m-%d")
     dataset_id = dataset_ids[0]
 
-    print(start_date, end_date, dataset_id)
-
     download_data(dataset_id, start_date, end_date, cookies)
-
-    # get data function here
 
 
 cli.add_command(auth)
