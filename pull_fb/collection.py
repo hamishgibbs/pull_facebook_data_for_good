@@ -13,14 +13,14 @@ def get_outfn(dataset_id, cwd=os.getcwd()):
     return out_fn
 
 
-def write_zipfile(out_fn, r):
+def write_zipfile(out_fn, data):
 
     try:
 
         print(u"\U0001f4e5" + " Writing data...")
 
         with open(out_fn, 'wb') as fd:
-            for chunk in r.iter_content(chunk_size=128):
+            for chunk in data:
                 fd.write(chunk)
 
     except Exception:
@@ -28,14 +28,14 @@ def write_zipfile(out_fn, r):
         raise Exception("Failed to write output zipfile.")
 
 
-def unzip_data(out_fn):
+def unzip_data(out_fn, out_dir=os.getcwd()):
 
     print(u"\U0001f4a5" + " Extracting data...")
 
     try:
 
         with zipfile.ZipFile(out_fn, 'r') as zip_ref:
-            zip_ref.extractall(os.getcwd())
+            zip_ref.extractall(out_dir)
 
     except Exception:
 
@@ -110,7 +110,7 @@ def download_data(dataset_id, start_date, end_date, cookies):
 
     out_fn = get_outfn(dataset_id)
 
-    write_zipfile(out_fn, r)
+    write_zipfile(out_fn, r.iter_content(chunk_size=128))
 
     unzip_data(out_fn)
 

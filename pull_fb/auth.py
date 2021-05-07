@@ -15,7 +15,12 @@ def check_auth(cookies):
 
     r = requests.get(login_url, cookies=cookies)
 
-    if 'x-fb-rlafr' in r.headers.keys():
+    check_auth_headers(r.headers, login_url)
+
+
+def check_auth_headers(headers, login_url):
+
+    if 'x-fb-rlafr' in headers.keys():
 
         print(u"\U00002705" + " Authenticated.")
 
