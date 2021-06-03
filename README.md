@@ -6,7 +6,7 @@
 
 ⛔ [DEPRECATED] ⛔
 
-*This library has been depracted by changes to the portal for downloading data from Facebook and enhanced security mechanisms. The recommended method for downloading data is from the newly available "Partner Portal". This library is compatible with the previous "Geoinsights Portal" and will no longer be maintained*
+*This library has been deprecated by changes to the portal for downloading data from Facebook Data for Good and enhanced security mechanisms in the new download portal. The recommended method for downloading data is from the newly available "Partner Portal". This library is compatible with the previous "Geoinsights Portal" and will no longer be maintained.*
 
 ***
 
