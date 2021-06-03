@@ -1,6 +1,14 @@
-# pull_facebook_data_for_good
+# [DEPRECATED] pull_facebook_data_for_good
 [![GitHub Actions (Tests)](https://github.com/hamishgibbs/pull_facebook_data_for_good/workflows/Tests/badge.svg)](https://github.com/hamishgibbs/pull_facebook_data_for_good)
 [![codecov](https://codecov.io/gh/hamishgibbs/pull_facebook_data_for_good/branch/master/graph/badge.svg)](https://codecov.io/gh/hamishgibbs/pull_facebook_data_for_good)
+
+***
+
+⛔ [DEPRECATED] ⛔
+
+*This library has been depracted by changes to the portal for downloading data from Facebook and enhanced security mechanisms. The recommended method for downloading data is from the newly available "Partner Portal". This library is compatible with the previous "Geoinsights Portal" and will no longer be maintained*
+
+***
 
 Imitate an API for downloading data from Facebook Data for Good.
 
