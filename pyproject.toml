@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "pull_fb"
+version = "0.1.0"
+description = "Imitate an API for downloading data from Facebook Data For Good"
+authors = ["hamishgibbs <hamishgibbs@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.25.1"
+browser-cookie3 = "^0.12.1"
+click = "^7.1.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+pull_fb="pull_fb.pull_fb:cli"
